@@ -1,0 +1,2 @@
+# ClashQuizOpen
+public Version
