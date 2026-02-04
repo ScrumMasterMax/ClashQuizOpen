@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_pw
+      MYSQL_DATABASE: clashquiz
+      MYSQL_USER: clashquizuser
+      MYSQL_PASSWORD: example_pw
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d:ro
+    ports:
+      - "3306:3306"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py migrate --noinput && gunicorn clashquiz.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=clashquiz.settings
+      - DB_HOST=db
+      - DB_NAME=clashquiz
+      - DB_USER=clashquizuser
+      - DB_PASSWORD=example_pw
+      - SECRET_KEY=changeme
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+volumes:
+  db_data:
