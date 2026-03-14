@@ -1,0 +1,60 @@
+def connect_db():
+   try:
+       conn = mariadb.connect(
+           user="",              # <- anpassen!
+           password="", # <- anpassen!
+           host="",
+           database=""   # <- anpassen oder vorher anlegen
+       )
+       return conn
+   except mariadb.Error as e:
+       messagebox.showerror("DB Fehler", f"Fehler bei der Verbindung: {e}")
+       return None
+
+	   def setup_db():
+   conn = connect_db()
+   if not conn:
+       return
+   cur = conn.cursor()
+   cur.execute("""
+       CREATE TABLE IF NOT EXISTS tag (
+           id INT AUTO_INCREMENT PRIMARY KEY,
+           name VARCHAR(255) NOT NULL,
+           beschreibung TEXT
+       )
+   """)
+   cur.execute("""
+       CREATE TABLE IF NOT EXISTS ** (
+           ** CHAR(6) PRIMARY KEY,
+           ** TEXT,
+           ** DECIMAL(10,2),
+           ** DATE
+       )
+   """)
+   cur.execute("""
+       CREATE TABLE IF NOT EXISTS ** (
+           ** INT AUTO_INCREMENT PRIMARY KEY,
+           ** VARCHAR(255) NOT NULL,
+           ** TEXT
+       )
+   """)
+   cur.execute("""
+       CREATE TABLE IF NOT EXISTS ** (
+           ** CHAR(6),
+           ** INT,
+           FOREIGN KEY (**) REFERENCES **(**),
+           FOREIGN KEY (**) REFERENCES **(**),
+           PRIMARY KEY (**, **)
+       )
+   """)
+   cur.execute("""
+          CREATE TABLE IF NOT EXISTS ** (
+              ** CHAR(6),
+              ** INT,
+              FOREIGN KEY (**) REFERENCES **(**),
+              FOREIGN KEY (**) REFERENCES **(**),
+              PRIMARY KEY (**, **)
+          )
+      """)
+   conn.commit()
+   conn.close()
