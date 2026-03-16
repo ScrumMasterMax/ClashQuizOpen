@@ -5,10 +5,10 @@ app = Flask(__name__)
 
 def get_connection():
     return mariadb.connect(
-        host="clashquiz.schrz.de:3307",
-        user="DEIN_USER",
+        host="",
+        user="",
         password="",
-        database="DEINE_DB"
+        database="Clash-Quiz"
     )
 
 @app.route("/users")
