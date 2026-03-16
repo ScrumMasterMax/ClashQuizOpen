@@ -6,7 +6,7 @@ app = Flask(__name__)
 def get_connection():
     return mariadb.connect(
         host="clashquiz.schrz.de:3307",
-        user="Phyton",
+        user="Python",
         password="[Phytor-vs-Lloyd]",
         database="Clash-Quiz"
     )
