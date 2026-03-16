@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClashQuiz - Das ultimative Quiz-Duell</title>
+    <title>ClashQuiz - Intelligentes Lernquiz</title>
     <style>
         * {
             margin: 0;
@@ -29,7 +29,7 @@
         /* Header / Navigation */
         header {
             background-color: var(--dark-blue);
-            padding: 1.5rem 0;
+            padding: 1.2rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -45,11 +45,19 @@
             padding: 0 2rem;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--gold);
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             text-decoration: none;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
         }
 
         nav ul {
@@ -86,7 +94,7 @@
         .hero {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
             color: #fff;
-            padding: 8rem 2rem;
+            padding: 7rem 2rem;
             text-align: center;
         }
 
@@ -94,6 +102,7 @@
             font-size: 3.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
+            line-height: 1.2;
         }
 
         .hero .highlight {
@@ -101,12 +110,19 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
             color: var(--light-gray);
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .hero-subtext {
+            font-size: 1rem;
+            color: var(--light-gray);
+            margin-bottom: 3rem;
+            font-style: italic;
         }
 
         .hero-buttons {
@@ -164,12 +180,22 @@
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             color: var(--dark-blue);
         }
 
         .section-title .highlight {
             color: var(--gold);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .features-grid {
@@ -209,6 +235,144 @@
             line-height: 1.8;
         }
 
+        /* Learning Path Section */
+        .learning-path {
+            padding: 6rem 2rem;
+            background-color: #fff;
+        }
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .path-card {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--dark-blue) 100%);
+            color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .path-number {
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .path-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .path-card p {
+            color: var(--light-gray);
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 2rem;
+            background-color: var(--light-gray);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            color: var(--medium-gray);
+            font-size: 1rem;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 6rem 2rem;
+            background-color: #fff;
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .benefits-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-blue);
+        }
+
+        .benefits-text h2 .highlight {
+            color: var(--gold);
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            color: var(--gold);
+            min-width: 30px;
+        }
+
+        .benefit-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+
+        .benefit-item p {
+            color: var(--medium-gray);
+            font-size: 0.95rem;
+        }
+
+        .benefits-visual {
+            background: linear-gradient(135deg, var(--gold) 0%, #c9a03f 100%);
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--dark-blue);
+        }
+
+        .benefits-visual-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefits-visual h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits-visual p {
+            font-size: 0.95rem;
+        }
+
         /* CTA Section */
         .cta-section {
             background: linear-gradient(135deg, var(--dark-gray) 0%, var(--dark-blue) 100%);
@@ -226,30 +390,9 @@
             font-size: 1.1rem;
             margin-bottom: 2rem;
             color: var(--light-gray);
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 4rem 2rem;
-            background-color: #fff;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-item p {
-            color: var(--medium-gray);
-            font-size: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Footer */
@@ -295,6 +438,10 @@
                 gap: 1rem;
             }
 
+            .logo-img {
+                height: 35px;
+            }
+
             .hero h1 {
                 font-size: 2.2rem;
             }
@@ -316,6 +463,10 @@
             .section-title {
                 font-size: 1.8rem;
             }
+
+            .benefits-content {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 600px) {
@@ -328,8 +479,13 @@
                 font-size: 0.85rem;
             }
 
-            .logo {
-                font-size: 1.4rem;
+            .logo-container {
+                gap: 0.4rem;
+                font-size: 1.2rem;
+            }
+
+            .logo-img {
+                height: 30px;
             }
 
             .hero {
@@ -343,6 +499,10 @@
             .features {
                 padding: 3rem 1rem;
             }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -350,11 +510,14 @@
     <!-- Header / Navigation -->
     <header>
         <nav>
-            <a href="#" class="logo">⚡ ClashQuiz</a>
+            <a href="#" class="logo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='transparent'/%3E%3Ctext x='50%25' y='50%25' font-size='60' font-weight='bold' text-anchor='middle' dominant-baseline='central' fill='%23D8B34B'%3E?%3C/text%3E%3C/svg%3E" alt="ClashQuiz" class="logo-img">
+                ClashQuiz
+            </a>
             <ul>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#stats">Stats</a></li>
-                <li><a href="#cta">Kontakt</a></li>
+                <li><a href="#learning">Lernpfad</a></li>
+                <li><a href="#cta">Start</a></li>
                 <li><a href="#" class="nav-cta">Login</a></li>
             </ul>
         </nav>
@@ -362,32 +525,35 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Willkommen bei <span class="highlight">ClashQuiz</span></h1>
-        <p>Das ultimative Quiz-Duell für Freunde und Rivalen. Teste dein Wissen in Echtzeit und werde Quiz-Champion!</p>
+        <h1>Lernen trifft <span class="highlight">Quiz</span></h1>
+        <p>ClashQuiz kombiniert intelligentes Lernen mit unterhaltsamen Duellen. Erweitere dein Wissen und messe dich mit anderen!</p>
+        <div class="hero-subtext">Adaptive Quizze für dein Lernziel</div>
         <div class="hero-buttons">
-            <button class="btn btn-primary">Jetzt starten</button>
+            <button class="btn btn-primary">Kostenlos starten</button>
             <button class="btn btn-secondary">Mehr erfahren</button>
         </div>
     </section>
 
     <!-- Stats Section -->
-    <section class="stats container">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <h3>5.000+</h3>
-                <p>Aktive Spieler</p>
-            </div>
-            <div class="stat-item">
-                <h3>10.000+</h3>
-                <p>Quiz-Fragen</p>
-            </div>
-            <div class="stat-item">
-                <h3>50+</h3>
-                <p>Kategorien</p>
-            </div>
-            <div class="stat-item">
-                <h3>24/7</h3>
-                <p>Online verfügbar</p>
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Lernkurse</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10.000+</h3>
+                    <p>Quiz-Fragen</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50.000+</h3>
+                    <p>Lernende weltweit</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Erfolgsquote</p>
+                </div>
             </div>
         </div>
     </section>
@@ -396,36 +562,116 @@
     <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">Warum <span class="highlight">ClashQuiz</span>?</h2>
+            <p class="section-subtitle">Intelligentes Lernen mit Spaß und Wettbewerb</p>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Echtzeit-Duelle</h3>
-                    <p>Fordere deine Freunde zu Live-Duellen heraus und klopfe sie spielerisch in den Boden.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Detaillierte Statistiken</h3>
-                    <p>Verfolge deine Fortschritte, Rankings und Erfolge in detaillierten Diagrammen.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Leaderboards</h3>
-                    <p>Klettere die globale und regionale Rangliste hinauf und verdiene Abzeichen.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Globale Community</h3>
-                    <p>Tritt einer weltweiten Community von Quiz-Liebhabern bei und mache neue Freunde.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3>Viele Kategorien</h3>
-                    <p>Von Geschichte bis Wissenschaft — über 50 Kategorien zum Erkunden.</p>
+                    <div class="feature-icon">🧠</div>
+                    <h3>Adaptive Lernpfade</h3>
+                    <p>Die Quizze passen sich deinem Lernfortschritt an und stellen dir Fragen auf deinem Level.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <h3>Schnell & Einfach</h3>
-                    <p>Starte ein Quiz in Sekunden und spiele überall auf Smartphone oder Desktop.</p>
+                    <h3>Echtzeit-Duelle</h3>
+                    <p>Fordere Freunde zu Live-Quiz-Duellen heraus und lerne spielerisch zusammen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Detaillierte Fortschritte</h3>
+                    <p>Verfolge deine Lernfortschritte mit ausführlichen Statistiken und Analysen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>50+ Lernthemen</h3>
+                    <p>Von Sprachen über Naturwissenschaften bis zu beruflichen Qualifikationen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Gamification</h3>
+                    <p>Verdiene Abzeichen, klettere Ranglisten hinauf und motiviere dich selbst.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Überall lernen</h3>
+                    <p>Nutze ClashQuiz auf Handy, Tablet oder Desktop — jederzeit und überall.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Path Section -->
+    <section class="learning-path" id="learning">
+        <div class="container">
+            <h2 class="section-title">Dein <span class="highlight">Lernpfad</span></h2>
+            <p class="section-subtitle">So funktioniert intelligentes Lernen mit ClashQuiz</p>
+            <div class="path-grid">
+                <div class="path-card">
+                    <div class="path-number">1</div>
+                    <h3>Auswählen</h3>
+                    <p>Wähle ein Lernthema oder eine Kategorie, die dich interessiert.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-number">2</div>
+                    <h3>Lernen</h3>
+                    <p>Bearbeite adaptive Quizze, die sich deinem Wissenslevel anpassen.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-number">3</div>
+                    <h3>Duellieren</h3>
+                    <p>Tritt gegen Freunde oder Zufallsgegner im Echtzeit-Quiz-Duell an.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-number">4</div>
+                    <h3>Verbessern</h3>
+                    <p>Analysiere deine Fehler und lerne aus detaillierten Auswertungen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text">
+                    <h2>Lerne <span class="highlight">intelligenter</span>, nicht härter</h2>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Wissenschaftlich fundiert</h4>
+                            <p>Basierend auf bewährten Lernmethoden und Gedächtnisforschung.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Spaced Repetition</h4>
+                            <p>Optimale Wiederholungsintervalle für langfristiges Behalten.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Personalisiert</h4>
+                            <p>Jeder Lernpfad ist einzigartig und passt sich dir an.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Community-getrieben</h4>
+                            <p>Lerne zusammen mit einer globalen Lerner-Community.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefits-visual">
+                    <div class="benefits-visual-icon">📚</div>
+                    <h3>Ergebnisse</h3>
+                    <p>Nutzer von ClashQuiz verbessern ihr Wissen durchschnittlich um 40% in 4 Wochen.</p>
                 </div>
             </div>
         </div>
@@ -434,9 +680,9 @@
     <!-- CTA Section -->
     <section class="cta-section" id="cta">
         <div class="container">
-            <h2>Bereit zum Clan-Clash?</h2>
-            <p>Registriere dich kostenlos und starte dein Quiz-Abenteuer noch heute!</p>
-            <button class="btn btn-primary">Kostenlos registrieren</button>
+            <h2>Starte dein Lernabenteu<span class="highlight">r</span></h2>
+            <p>Registriere dich kostenlos und entdecke eine neue Art zu lernen — intelligent, unterhaltsam und effektiv!</p>
+            <button class="btn btn-primary">Jetzt kostenlos registrieren</button>
         </div>
     </section>
 
@@ -448,10 +694,10 @@
                 <a href="#">Datenschutz</a>
                 <a href="#">Nutzungsbedingungen</a>
                 <a href="#">Kontakt</a>
-                <a href="#">FAQ</a>
+                <a href="#">Blog</a>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 ClashQuiz. Alle Rechte vorbehalten. | Entwickelt mit ❤️</p>
+                <p>&copy; 2026 ClashQuiz. Alle Rechte vorbehalten. | Intelligentes Lernen für alle.</p>
             </div>
         </div>
     </footer>
