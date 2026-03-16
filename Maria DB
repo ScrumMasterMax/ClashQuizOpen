@@ -24,11 +24,10 @@ def connect_db():
        )
    """)
    cur.execute("""
-       CREATE TABLE IF NOT EXISTS ** (
-           ** CHAR(6) PRIMARY KEY,
-           ** TEXT,
-           ** DECIMAL(10,2),
-           ** DATE
+       CREATE TABLE IF NOT EXISTS User (
+           id CHAR(6) PRIMARY KEY,
+           username TEXT,
+           geburtstag DATE
        )
    """)
    cur.execute("""
