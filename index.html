@@ -1,32 +1,69 @@
 <!DOCTYPE html>
+<!--
+  index.html - Hauptseite von ClashQuiz
+
+  Diese Datei enthält die komplette Landingpage (HTML + eingebettetes CSS) für die Demo/Startseite von ClashQuiz.
+  Zweck der ausführlichen deutschen Kommentare:
+  - Erklären der Struktur (Header, Hero, Sections, Footer)
+  - Beschreiben der wichtigsten CSS-Variablen und Klassen
+  - Hinweise zur Barrierefreiheit, Bildintegration und Responsive-Verhalten
+  - Empfehlungen zur Anpassung (Logo, Farben, Abstände)
+
+  Hinweise zur Bildintegration:
+  - Das Logo wird relativ zur index.html eingebunden: <img src="clash_quiz_logo.png" ...>
+  - Stelle sicher, dass sich die Datei clash_quiz_logo.png im selben Verzeichnis wie diese index.html befindet (Repo-Root) oder passe den Pfad entsprechend an.
+  - Verwende aussagekräftigen Alt-Text für Barrierefreiheit.
+
+  Version/Commit-Referenz: commit OID 9205715f20f8676d2b6af22759ccf33e46f105ae
+-->
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClashQuiz - Intelligentes Lernquiz</title>
     <style>
+        /*
+          Globales Reset und Box-Sizing
+          - Entfernt Standardabstände und sorgt dafür, dass Padding in der Breite/Höhe mitgerechnet wird.
+          - Dieses Muster hilft, konsistente Layout-Berechnungen zu haben.
+        */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /*
+          CSS-Root-Variablen (Farbsystem & Designtokens)
+          - Definiere hier zentrale Farben, damit spätere Anpassungen einfach zentral erfolgen.
+          - Benennung ist sprechend (z. B. --gold für Akzentfarbe).
+        */
         :root {
-            --gold: #D8B34B;
-            --light-gray: #D4D5D7;
-            --medium-gray: #9A9DA3;
-            --dark-gray: #585B61;
-            --dark-blue: #1B1C20;
+            --gold: #D8B34B; /* Primäre Akzentfarbe, z.B. für Buttons und Highlights */
+            --light-gray: #D4D5D7; /* Helle Grautöne für Hintergründe */
+            --medium-gray: #9A9DA3; /* Mittleres Grau für Sekundärtext */
+            --dark-gray: #585B61; /* Dunkelgrau für tieferen Kontrast */
+            --dark-blue: #1B1C20; /* Haupttext- / Header-Farbe */
         }
 
+        /*
+          Basis-Styles für den <body>
+          - Schriftfamilie: System-Fonts für Performance
+          - line-height für bessere Lesbarkeit
+        */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--dark-blue);
-            background-color: #fff;
+            background-color: #fff; /* Weißer Hintergrund für starken Kontrast */
         }
 
-        /* Header / Navigation */
+        /*
+          Header / Navigation
+          - Sticky-Header: bleibt oben beim Scrollen
+          - Box-Shadow für leichte Tiefe
+          - Wichtig: z-index, damit der Header andere Inhalte überlagert
+        */
         header {
             background-color: var(--dark-blue);
             padding: 1.2rem 0;
@@ -36,6 +73,11 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /*
+          Nav-Container: Flexbox-Layout
+          - justify-content: space-between -> Logo links, Navigation rechts
+          - max-width sorgt für zentrierte Inhalte auf großen Bildschirmen
+        */
         nav {
             display: flex;
             justify-content: space-between;
@@ -45,21 +87,37 @@
             padding: 0 2rem;
         }
 
+        /*
+          Logo-Container
+          - Flex-Layout um Bild und Text nebeneinander anzuordnen
+          - gap kontrolliert den Abstand zwischen Logo-Bild und Text
+          - color & font-weight beeinflussen den sichtbaren Text (z. B. 'ClashQuiz')
+        */
         .logo-container {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            text-decoration: none;
+            text-decoration: none; /* Entfernt Unterstreichung bei Links */
             color: var(--gold);
             font-weight: 700;
             font-size: 1.5rem;
         }
 
+        /*
+          .logo-img: Standard-Höhe für das Logo
+          - width: auto stellt sicher, dass das Seitenverhältnis erhalten bleibt
+          - Tipp: Bei zu hohem Logo die Höhe anpassen (z. B. 30-50px)
+        */
         .logo-img {
             height: 45px;
             width: auto;
         }
 
+        /*
+          Navigationselemente
+          - nav ul: horizontale Liste mit Lücken zwischen den Items
+          - nav a: link-Farben und Hover-Transition
+        */
         nav ul {
             display: flex;
             list-style: none;
@@ -69,14 +127,20 @@
         nav a {
             color: var(--light-gray);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3s; /* Sanfter Farbwechsel bei Hover */
             font-size: 0.95rem;
         }
 
+        /* Hover-Zustand für Links - visuelles Feedback */
         nav a:hover {
             color: var(--gold);
         }
 
+        /*
+          Call-to-Action im Navigationsteil
+          - .nav-cta hebt sich durch Hintergrundfarbe ab
+          - border-radius für abgerundete Ecken
+        */
         .nav-cta {
             background-color: var(--gold);
             color: var(--dark-blue);
@@ -87,10 +151,14 @@
         }
 
         .nav-cta:hover {
-            background-color: #c9a03f;
+            background-color: #c9a03f; /* Leicht dunklere Variante beim Hover */
         }
 
-        /* Hero Section */
+        /*
+          HERO-Section
+          - Große Typografie und kräftiger Hintergrund-Gradient
+          - text-align: center, weil es sich um eine zentrale Landing-Headline handelt
+        */
         .hero {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
             color: #fff;
@@ -105,6 +173,11 @@
             line-height: 1.2;
         }
 
+        /*
+          .highlight: Utility-Klasse für Textakzente
+          - Hier wird die goldene Akzentfarbe verwendet
+          - Wird an mehreren Stellen re-used (z. B. Überschriften)
+        */
         .hero .highlight {
             color: var(--gold);
         }
@@ -113,7 +186,7 @@
             font-size: 1.2rem;
             margin-bottom: 2.5rem;
             color: var(--light-gray);
-            max-width: 700px;
+            max-width: 700px; /* Leselänge begrenzen für bessere UX */
             margin-left: auto;
             margin-right: auto;
         }
@@ -125,6 +198,11 @@
             font-style: italic;
         }
 
+        /*
+          Buttons im Hero
+          - .btn: Basisklasse für Buttons
+          - .btn-primary / .btn-secondary: Varianten
+        */
         .hero-buttons {
             display: flex;
             gap: 1.5rem;
@@ -151,7 +229,7 @@
 
         .btn-primary:hover {
             background-color: #c9a03f;
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* Subtiles Heben beim Hover */
             box-shadow: 0 5px 15px rgba(216, 179, 75, 0.3);
         }
 
@@ -166,7 +244,11 @@
             color: var(--dark-blue);
         }
 
-        /* Features Section */
+        /*
+          Features Section
+          - Grid-Layout mit responsiven Karten
+          - Jede Karte hat Schatten, abgerundete Ecken und einen Gold-Akzent oben
+        */
         .features {
             padding: 6rem 2rem;
             background-color: var(--light-gray);
@@ -235,7 +317,11 @@
             line-height: 1.8;
         }
 
-        /* Learning Path Section */
+        /*
+          Learning Path Section
+          - Nutzen von Gradienten für visuelle Trennung
+          - Path-Karten nummeriert (1..4)
+        */
         .learning-path {
             padding: 6rem 2rem;
             background-color: #fff;
@@ -273,7 +359,10 @@
             line-height: 1.7;
         }
 
-        /* Stats Section */
+        /*
+          Stats Section: kleine Kacheln mit Zahlen
+          - Verwende große, gut lesbare Zahlen (h3)
+        */
         .stats {
             padding: 4rem 2rem;
             background-color: var(--light-gray);
@@ -305,7 +394,10 @@
             font-size: 1rem;
         }
 
-        /* Benefits Section */
+        /*
+          Benefits Section: zwei Spalten - Text + Visual
+          - Nutze Grid, um Content und visuelle Hervorhebung nebeneinander anzuordnen
+        */
         .benefits {
             padding: 6rem 2rem;
             background-color: #fff;
@@ -373,7 +465,9 @@
             font-size: 0.95rem;
         }
 
-        /* CTA Section */
+        /*
+          CTA Section: andere Farbwelt (dunkler Hintergrund), zentrierte CTA
+        */
         .cta-section {
             background: linear-gradient(135deg, var(--dark-gray) 0%, var(--dark-blue) 100%);
             color: #fff;
@@ -395,7 +489,11 @@
             margin-right: auto;
         }
 
-        /* Footer */
+        /*
+          Footer
+          - Einfache, zentrierte Links
+          - Footer-Farbe passt zur Headerfarbe für Konsistenz
+        */
         footer {
             background-color: var(--dark-blue);
             color: var(--light-gray);
@@ -432,18 +530,22 @@
             color: var(--medium-gray);
         }
 
-        /* Responsive */
+        /*
+          Responsive Breakpoints
+          - Zwei Breakpoints: 768px und 600px
+          - Passe diese Werte an, wenn deine Zielgeräte andere Breiten haben
+        */
         @media (max-width: 768px) {
             nav ul {
                 gap: 1rem;
             }
 
             .logo-img {
-                height: 35px;
+                height: 35px; /* Logo etwas kleiner auf Tablets */
             }
 
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.2rem; /* Überschrift skalieren */
             }
 
             .hero p {
@@ -465,7 +567,7 @@
             }
 
             .benefits-content {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Bei kleineren Bildschirmen: einspaltig */
             }
         }
 
@@ -485,7 +587,7 @@
             }
 
             .logo-img {
-                height: 30px;
+                height: 30px; /* Noch kleineres Logo auf sehr kleinen Geräten */
             }
 
             .hero {
@@ -507,14 +609,28 @@
     </style>
 </head>
 <body>
-    <!-- Header / Navigation -->
+    <!--
+      HEADER / NAVIGATION
+      - Enthält Logo (links) und Navigationslinks (rechts)
+      - Wichtiger Hinweis zur Barrierefreiheit: Das Logo-Image sollte einen aussagekräftigen alt-Text haben.
+      - Falls das Logo als dekoratives Element verwendet wird, kann alt="" gesetzt werden, aber hier ist es Teil der Marke -> daher sinnvoller Alt-Text.
+    -->
     <header>
         <nav>
             <a href="#" class="logo-container">
-                <img src="clash_quiz_logo.png" alt="Clash Quiz Logo" class="logo-img" />
+                <!-- Logo-Bild: relativ zur index.html referenziert. Wenn du GH Pages nutzt, funktioniert der relative Pfad im Repo-Root. -->
+                <img src="clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
+                <!--
+                  Markenname neben dem Logo: sichtbar, falls das Bild nicht geladen werden kann oder Screenreader es übergeht.
+                  Text bleibt in .logo-container bewusst farblich hervorgehoben (var(--gold)).
+                -->
                 ClashQuiz
             </a>
             <ul>
+                <!--
+                  Navigationspunkte: Für Single-Page-Landingpages sind Ankerlinks (href="#id") üblich.
+                  Für mehrsprachige Seiten sollte hier ggf. ein Sprachumschalter integriert werden.
+                -->
                 <li><a href="#features">Features</a></li>
                 <li><a href="#learning">Lernpfad</a></li>
                 <li><a href="#cta">Start</a></li>
@@ -523,18 +639,27 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!--
+      HERO SECTION
+      - Kernbotschaft, zentrale CTA-Buttons
+      - Achte auf ausreichenden Farbkontrast bei Text vor dem dunklen Verlauf
+    -->
     <section class="hero">
         <h1>Lernen trifft <span class="highlight">Quiz</span></h1>
         <p>ClashQuiz kombiniert intelligentes Lernen mit unterhaltsamen Duellen. Erweitere dein Wissen und messe dich mit anderen!</p>
         <div class="hero-subtext">Adaptive Quizze für dein Lernziel</div>
         <div class="hero-buttons">
+            <!-- Primärer CTA sollte die gewünschte Conversion darstellen (z. B. Registrierung oder Start des Quiz) -->
             <button class="btn btn-primary">Kostenlos starten</button>
             <button class="btn btn-secondary">Mehr erfahren</button>
         </div>
     </section>
 
-    <!-- Stats Section -->
+    <!--
+      STATS SECTION
+      - Schnelle Kennzahlen zur Glaubwürdigkeit
+      - Achte auf realistische Zahlen und Source-Links, falls benötigt
+    -->
     <section class="stats">
         <div class="container">
             <div class="stats-grid">
@@ -558,7 +683,11 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!--
+      FEATURES SECTION
+      - Grid-basierte Karten zeigen die Kernfeatures
+      - Verwende Icon-Elemente (Emoji hier) oder SVG-Icons für bessere Skalierbarkeit
+    -->
     <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">Warum <span class="highlight">ClashQuiz</span>?</h2>
@@ -598,7 +727,11 @@
         </div>
     </section>
 
-    <!-- Learning Path Section -->
+    <!--
+      LEARNING PATH SECTION
+      - Schritt-für-Schritt Darstellung des Nutzerflusses
+      - Nummerierte Karten erleichtern die Orientierung
+    -->
     <section class="learning-path" id="learning">
         <div class="container">
             <h2 class="section-title">Dein <span class="highlight">Lernpfad</span></h2>
@@ -628,13 +761,17 @@
         </div>
     </section>
 
-    <!-- Benefits Section -->
+    <!--
+      BENEFITS SECTION
+      - Hebt zentrale Vorteile hervor
+      - Kombination aus Text- und Visual-Bereich für bessere Conversion
+    -->
     <section class="benefits">
         <div class="container">
             <div class="benefits-content">
                 <div class="benefits-text">
                     <h2>Lerne <span class="highlight">intelligenter</span>, nicht härter</h2>
-                    
+
                     <div class="benefit-item">
                         <div class="benefit-icon">✓</div>
                         <div>
@@ -677,7 +814,11 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
+    <!--
+      CALL TO ACTION (CTA)
+      - Platz für die primäre Conversion
+      - CTA-Buttons sollten klar sichtbar und leicht erreichbar sein
+    -->
     <section class="cta-section" id="cta">
         <div class="container">
             <h2>Starte dein Lernabenteu<span class="highlight">r</span></h2>
@@ -686,7 +827,11 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!--
+      FOOTER
+      - Enthält rechtliche Links und Footer-Informationen
+      - Bei mehreren Seiten: Sitemap / Social Links ergänzen
+    -->
     <footer>
         <div class="footer-content">
             <div class="footer-links">
@@ -701,5 +846,14 @@
             </div>
         </div>
     </footer>
+
+    <!--
+      Weiterführende Hinweise (nicht im DOM):
+      - Accessibility: Buttons sollten ggf. role-Attribute oder ARIA-Labels erhalten,
+        wenn sie komplexe Interaktionen auslösen.
+      - Performance: Externe Bilder/Assets können in /public oder CDN ausgelagert werden.
+      - Internationalisierung: Falls Mehrsprachigkeit geplant, Struktur für i18n vorsehen.
+      - Tests: Nutze Lighthouse, um Performance, Accessibility und SEO zu prüfen.
+    -->
 </body>
 </html>
