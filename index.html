@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<!--
+  index.html - Hauptseite von ClashQuiz
+
+  Diese Datei enthält die komplette Landingpage (HTML + eingebettetes CSS) für die Demo/Startseite von ClashQuiz.
+  Zweck der ausführlichen deutschen Kommentare:
+  - Erklären der Struktur (Header, Hero, Sections, Footer)
+  - Beschreiben der wichtigsten CSS-Variablen und Klassen
+  - Hinweise zur Barrierefreiheit, Bildintegration und Responsive-Verhalten
+  - Empfehlungen zur Anpassung (Logo, Farben, Abstände)
+
+  Hinweise zur Bildintegration:
+  - Das Logo wird relativ zur index.html eingebunden: <img src="clash_quiz_logo.png" ...>
+  - Stelle sicher, dass sich die Datei clash_quiz_logo.png im selben Verzeichnis wie diese index.html befindet (Repo-Root) oder passe den Pfad entsprechend an.
+  - Verwende aussagekräftigen Alt-Text für Barrierefreiheit.
+
+  Version/Commit-Referenz: commit OID 9205715f20f8676d2b6af22759ccf33e46f105ae
+-->
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClashQuiz - Intelligentes Lernquiz</title>
+
+    <!-- Favicon / Tab-Icon -->
+    <link rel="icon" type="image/png" href="clash_quiz_logo.png">
+
+    <style>
+        /*
+          Globales Reset und Box-Sizing
+          - Entfernt Standardabstände und sorgt dafür, dass Padding in der Breite/Höhe mitgerechnet wird.
+          - Dieses Muster hilft, konsistente Layout-Berechnungen zu haben.
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /*
+          CSS-Root-Variablen (Farbsystem & Designtokens)
+          - Definiere hier zentrale Farben, damit spätere Anpassungen einfach zentral erfolgen.
+          - Benennung ist sprechend (z. B. --gold für Akzentfarbe).
+        */
+        :root {
+            --gold: #D8B34B; /* Primäre Akzentfarbe, z.B. für Buttons und Highlights */
+            --light-gray: #D4D5D7; /* Helle Grautöne für Hintergründe */
+            --medium-gray: #9A9DA3; /* Mittleres Grau für Sekundärtext */
+            --dark-gray: #585B61; /* Dunkelgrau für tieferen Kontrast */
+            --dark-blue: #1B1C20; /* Haupttext- / Header-Farbe */
+        }
+
+        /*
+          Basis-Styles für den <body>
+          - Schriftfamilie: System-Fonts für Performance
+          - line-height für bessere Lesbarkeit
+        */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-blue);
+            background-color: #fff; /* Weißer Hintergrund für starken Kontrast */
+        }
+
+        /*
+          Header / Navigation
+          - Sticky-Header: bleibt oben beim Scrollen
+          - Box-Shadow für leichte Tiefe
+          - Wichtig: z-index, damit der Header andere Inhalte überlagert
+        */
+        header {
+            background-color: var(--dark-blue);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /*
+          Nav-Container: Flexbox-Layout
+          - justify-content: space-between -> Logo links, Navigation rechts
+          - max-width sorgt für zentrierte Inhalte auf großen Bildschirmen
+        */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /*
+          Logo-Container
+          - Flex-Layout um Bild und Text nebeneinander anzuordnen
+          - gap kontrolliert den Abstand zwischen Logo-Bild und Text
+          - color & font-weight beeinflussen den sichtbaren Text (z. B. 'ClashQuiz')
+        */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none; /* Entfernt Unterstreichung bei Links */
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        /*
+          .logo-img: Standard-Höhe für das Logo
+          - width: auto stellt sicher, dass das Seitenverhältnis erhalten bleibt
+          - Tipp: Bei zu hohem Logo die Höhe anpassen (z. B. 30-50px)
+        */
+        .logo-img {
+            height: 45px;
+            width: auto;
+        }
+
+        /*
+          Navigationselemente
+          - nav ul: horizontale Liste mit Lücken zwischen den Items
+          - nav a: link-Farben und Hover-Transition
+        */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s; /* Sanfter Farbwechsel bei Hover */
+            font-size: 0.95rem;
+        }
+
+        /* Hover-Zustand für Links - visuelles Feedback */
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        /*
+          Call-to-Action im Navigationsteil
+          - .nav-cta hebt sich durch Hintergrundfarbe ab
+          - border-radius für abgerundete Ecken
+        */
+        .nav-cta {
+            background-color: var(--gold);
+            color: var(--dark-blue);
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .nav-cta:hover {
+            background-color: #c9a03f; /* Leicht dunklere Variante beim Hover */
+        }
+
+        /*
+          HERO-Section
+          - Große Typografie und kräftiger Hintergrund-Gradient
+          - text-align: center, weil es sich um eine zentrale Landing-Headline handelt
+        */
+        .hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
+            color: #fff;
+            padding: 7rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /*
+          .highlight: Utility-Klasse für Textakzente
+          - Hier wird die goldene Akzentfarbe verwendet
+          - Wird an mehreren Stellen re-used (z. B. Überschriften)
+        */
+        .hero .highlight {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--light-gray);
+            max-width: 700px; /* Leselänge begrenzen für bessere UX */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-subtext {
+            font-size: 1rem;
+            color: var(--light-gray);
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        /*
+          Buttons im Hero
+          - .btn: Basisklasse für Buttons
+          - .btn-primary / .btn-secondary: Varianten
+        */
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--gold);
+            color: var(--dark-blue);
+        }
+
+        .btn-primary:hover {
+            background-color: #c9a03f;
+            transform: translateY(-2px); /* Subtiles Heben beim Hover */
+            box-shadow: 0 5px 15px rgba(216, 179, 75, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gold);
+            color: var(--dark-blue);
+        }
+
+        /*
+          Features Section
+          - Grid-Layout mit responsiven Karten
+          - Jede Karte hat Schatten, abgerundete Ecken und einen Gold-Akzent oben
+        */
+        .features {
+            padding: 6rem 2rem;
+            background-color: var(--light-gray);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+
+        .section-title .highlight {
+            color: var(--gold);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border-top: 4px solid var(--gold);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-blue);
+        }
+
+        .feature-card p {
+            color: var(--medium-gray);
+            line-height: 1.8;
+        }
+
+        /*
+          Learning Path Section
+          - Nutzen von Gradienten für visuelle Trennung
+          - Path-Karten nummeriert (1..4)
+        */
+        .learning-path {
+            padding: 6rem 2rem;
+            background-color: #fff;
+        }
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .path-card {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--dark-blue) 100%);
+            color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .path-number {
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .path-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .path-card p {
+            color: var(--light-gray);
+            line-height: 1.7;
+        }
+
+        /*
+          Stats Section: kleine Kacheln mit Zahlen
+          - Verwende große, gut lesbare Zahlen (h3)
+        */
+        .stats {
+            padding: 4rem 2rem;
+            background-color: var(--light-gray);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            color: var(--medium-gray);
+            font-size: 1rem;
+        }
+
+        /*
+          Benefits Section: zwei Spalten - Text + Visual
+          - Nutze Grid, um Content und visuelle Hervorhebung nebeneinander anzuordnen
+        */
+        .benefits {
+            padding: 6rem 2rem;
+            background-color: #fff;
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .benefits-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-blue);
+        }
+
+        .benefits-text h2 .highlight {
+            color: var(--gold);
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            color: var(--gold);
+            min-width: 30px;
+        }
+
+        .benefit-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+
+        .benefit-item p {
+            color: var(--medium-gray);
+            font-size: 0.95rem;
+        }
+
+        .benefits-visual {
+            background: linear-gradient(135deg, var(--gold) 0%, #c9a03f 100%);
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--dark-blue);
+        }
+
+        .benefits-visual-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefits-visual h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits-visual p {
+            font-size: 0.95rem;
+        }
+
+        /*
+          CTA Section: andere Farbwelt (dunkler Hintergrund), zentrierte CTA
+        */
+        .cta-section {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--dark-blue) 100%);
+            color: #fff;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--light-gray);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*
+          Footer
+          - Einfache, zentrierte Links
+          - Footer-Farbe passt zur Headerfarbe für Konsistenz
+        */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--light-gray);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-gray);
+            padding-top: 2rem;
+            color: var(--medium-gray);
+        }
+
+        /*
+          Responsive Breakpoints
+          - Zwei Breakpoints: 768px und 600px
+          - Passe diese Werte an, wenn deine Zielgeräte andere Breiten haben
+        */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .logo-img {
+                height: 35px; /* Logo etwas kleiner auf Tablets */
+            }
+
+            .hero h1 {
+                font-size: 2.2rem; /* Überschrift skalieren */
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .benefits-content {
+                grid-template-columns: 1fr; /* Bei kleineren Bildschirmen: einspaltig */
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 0 1rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .logo-container {
+                gap: 0.4rem;
+                font-size: 1.2rem;
+            }
+
+            .logo-img {
+                height: 30px; /* Noch kleineres Logo auf sehr kleinen Geräten */
+            }
+
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .features {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--
+      HEADER / NAVIGATION
+      - Enthält Logo (links) und Navigationslinks (rechts)
+      - Wichtiger Hinweis zur Barrierefreiheit: Das Logo-Image sollte einen aussagekräftigen alt-Text haben.
+      - Falls das Logo als dekoratives Element verwendet wird, kann alt="" gesetzt werden, aber hier ist es Teil der Marke -> daher sinnvoller Alt-Text.
+    -->
+    <header>
+        <nav>
+            <a href="#" class="logo-container">
+                <!-- Logo-Bild: relativ zur index.html referenziert. Wenn du GH Pages nutzt, funktioniert der relative Pfad im Repo-Root. -->
+                <img src="clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
+                <!--
+                  Markenname neben dem Logo: sichtbar, falls das Bild nicht geladen werden kann oder Screenreader es übergeht.
+                  Text bleibt in .logo-container bewusst farblich hervorgehoben (var(--gold)).
+                -->
+                ClashQuiz
+            </a>
+            <ul>
+                <!--
+                  Navigationspunkte: Für Single-Page-Landingpages sind Ankerlinks (href="#id") üblich.
+                  Für mehrsprachige Seiten sollte hier ggf. ein Sprachumschalter integriert werden.
+                -->
+                <li><a href="#features">Features</a></li>
+                <li><a href="#learning">Lernpfad</a></li>
+                <li><a href="#cta">Start</a></li>
+                <li><a href="#" class="nav-cta">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--
+      HERO SECTION
+      - Kernbotschaft, zentrale CTA-Buttons
+      - Achte auf ausreichenden Farbkontrast bei Text vor dem dunklen Verlauf
+    -->
+    <section class="hero">
+        <h1>Lernen trifft <span class="highlight">Quiz</span></h1>
+        <p>ClashQuiz kombiniert intelligentes Lernen mit unterhaltsamen Duellen. Erweitere dein Wissen und messe dich mit anderen!</p>
+        <div class="hero-subtext">Adaptive Quizze für dein Lernziel</div>
+        <div class="hero-buttons">
+            <!-- Primärer CTA sollte die gewünschte Conversion darstellen (z. B. Registrierung oder Start des Quiz) -->
+            <button class="btn btn-primary">Kostenlos starten</button>
+            <button class="btn btn-secondary">Mehr erfahren</button>
+        </div>
+    </section>
+
+    <!--
+      STATS SECTION
+      - Schnelle Kennzahlen zur Glaubwürdigkeit
+      - Achte auf realistische Zahlen und Source-Links, falls benötigt
+    -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Lernkurse</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10.000+</h3>
+                    <p>Quiz-Fragen</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50.000+</h3>
+                    <p>Lernende weltweit</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Erfolgsquote</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--
+      FEATURES SECTION
+      - Grid-basierte Karten zeigen die Kernfeatures
+      - Verwende Icon-Elemente (Emoji hier) oder SVG-Icons für bessere Skalierbarkeit
+    -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Warum <span class="highlight">ClashQuiz</span>?</h2>
+            <p class="section-subtitle">Intelligentes Lernen mit Spaß und Wettbewerb</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Adaptive Lernpfade</h3>
+                    <p>Die Quizze passen sich deinem Lernfortschritt an und stellen dir Fragen auf deinem Level.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Echtzeit-Duelle</h3>
+                    <p>Fordere Freunde zu Live-Quiz-Duellen heraus und lerne spielerisch zusammen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Detaillierte Fortschritte</h3>
+                    <p>Verfolge deine Lernfortschritte mit ausführlichen Statistiken und Analysen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>50+ Lernthemen</h3>
+                    <p>Von Sprachen über Naturwissenschaften bis zu beruflichen Qualifikationen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Gamification</h3>
+                    <p>Verdiene Abzeichen, klettere Ranglisten hinauf und motiviere dich selbst.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Überall lernen</h3>
+                    <p>Nutze ClashQuiz auf Handy, Tablet oder Desktop — jederzeit und überall.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--
+      LEARNING PATH SECTION
+      - Schritt-für-Schritt Darstellung des Nutzerflusses
+      - Nummerierte Karten erleichtern die Orientierung
+    -->
+    <section class="learning-path" id="learning">
+        <div class="container">
+            <h2 class="section-title">Dein <span class="highlight">Lernpfad</span></h2>
+            <p class="section-subtitle">So funktioniert intelligentes Lernen mit ClashQuiz</p>
+            <div class="path-grid">
+                <div class="path-card">
+                    <div class="path-number">1</div>
+                    <h3>Auswählen</h3>
+                    <p>Wähle ein Lernthema oder eine Kategorie, die dich interessiert.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-number">2</div>
+                    <h3>Lernen</h3>
+                    <p>Bearbeite adaptive Quizze, die sich deinem Wissenslevel anpassen.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-number">3</div>
+                    <h3>Duellieren</h3>
+                    <p>Tritt gegen Freunde oder Zufallsgegner im Echtzeit-Quiz-Duell an.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-number">4</div>
+                    <h3>Verbessern</h3>
+                    <p>Analysiere deine Fehler und lerne aus detaillierten Auswertungen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--
+      BENEFITS SECTION
+      - Hebt zentrale Vorteile hervor
+      - Kombination aus Text- und Visual-Bereich für bessere Conversion
+    -->
+    <section class="benefits">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text">
+                    <h2>Lerne <span class="highlight">intelligenter</span>, nicht härter</h2>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Wissenschaftlich fundiert</h4>
+                            <p>Basierend auf bewährten Lernmethoden und Gedächtnisforschung.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Spaced Repetition</h4>
+                            <p>Optimale Wiederholungsintervalle für langfristiges Behalten.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Personalisiert</h4>
+                            <p>Jeder Lernpfad ist einzigartig und passt sich dir an.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <h4>Community-getrieben</h4>
+                            <p>Lerne zusammen mit einer globalen Lerner-Community.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefits-visual">
+                    <div class="benefits-visual-icon">📚</div>
+                    <h3>Ergebnisse</h3>
+                    <p>Nutzer von ClashQuiz verbessern ihr Wissen durchschnittlich um 40% in 4 Wochen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--
+      CALL TO ACTION (CTA)
+      - Platz für die primäre Conversion
+      - CTA-Buttons sollten klar sichtbar und leicht erreichbar sein
+    -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <h2>Starte dein Lernabenteu<span class="highlight">r</span></h2>
+            <p>Registriere dich kostenlos und entdecke eine neue Art zu lernen — intelligent, unterhaltsam und effektiv!</p>
+            <button class="btn btn-primary">Jetzt kostenlos registrieren</button>
+        </div>
+    </section>
+
+    <!--
+      FOOTER
+      - Enthält rechtliche Links und Footer-Informationen
+      - Bei mehreren Seiten: Sitemap / Social Links ergänzen
+    -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Über uns</a>
+                <a href="#">Datenschutz</a>
+                <a href="#">Nutzungsbedingungen</a>
+                <a href="#">Kontakt</a>
+                <a href="#">Blog</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ClashQuiz. Alle Rechte vorbehalten. | Intelligentes Lernen für alle.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!--
+      Weiterführende Hinweise (nicht im DOM):
+      - Accessibility: Buttons sollten ggf. role-Attribute oder ARIA-Labels erhalten,
+        wenn sie komplexe Interaktionen auslösen.
+      - Performance: Externe Bilder/Assets können in /public oder CDN ausgelagert werden.
+      - Internationalisierung: Falls Mehrsprachigkeit geplant, Struktur für i18n vorsehen.
+      - Tests: Nutze Lighthouse, um Performance, Accessibility und SEO zu prüfen.
+    -->
+</body>
+</html>
