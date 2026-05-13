@@ -15,9 +15,16 @@ if (registerForm) {
 
     registerMessage.textContent = "Registrierung läuft...";
 
-    const { data, error } = await supabaseClient.auth.signUp({
+    const { error } = await supabaseClient.auth.signUp({
       email,
-      password
+      password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          class_name: className
+        }
+      }
     });
 
     if (error) {
@@ -25,30 +32,34 @@ if (registerForm) {
       return;
     }
 
-    const user = data.user;
-
-    if (!user) {
-      registerMessage.textContent = "Registrierung erfolgreich, aber kein Benutzerobjekt erhalten.";
-      return;
-    }
-
-    const { error: profileError } = await supabaseClient
-      .from("profiles")
-      .insert([
-        {
-          id: user.id,
-          first_name: firstName,
-          last_name: lastName,
-          class_name: className
-        }
-      ]);
-
-    if (profileError) {
-      registerMessage.textContent = "Benutzer erstellt, aber Profil konnte nicht gespeichert werden: " + profileError.message;
-      return;
-    }
-
-    registerMessage.textContent = "Registrierung erfolgreich!";
+    registerMessage.textContent = "Registrierung erfolgreich! Du kannst dich jetzt anmelden.";
     registerForm.reset();
+  });
+}
+
+const loginForm = document.getElementById("login-form");
+const loginMessage = document.getElementById("login-message");
+
+if (loginForm) {
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById("login_email").value.trim();
+    const password = document.getElementById("login_password").value;
+
+    loginMessage.textContent = "Anmeldung läuft...";
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      loginMessage.textContent = "Fehler bei der Anmeldung: " + error.message;
+      return;
+    }
+
+    loginMessage.textContent = "Anmeldung erfolgreich!";
+    loginForm.reset();
   });
 }
