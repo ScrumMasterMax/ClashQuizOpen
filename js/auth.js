@@ -13,9 +13,16 @@ if (registerForm) {
     const email = document.getElementById("register_email").value.trim();
     const password = document.getElementById("register_password").value;
 
+    console.log("Form-Werte:", {
+      firstName,
+      lastName,
+      className,
+      email
+    });
+
     registerMessage.textContent = "Registrierung läuft...";
 
-    const { error } = await supabaseClient.auth.signUp({
+    const payload = {
       email,
       password,
       options: {
@@ -25,7 +32,13 @@ if (registerForm) {
           class_name: className
         }
       }
-    });
+    };
+
+    console.log("SignUp Payload:", payload);
+
+    const { data, error } = await supabaseClient.auth.signUp(payload);
+
+    console.log("SignUp Antwort:", { data, error });
 
     if (error) {
       registerMessage.textContent = "Fehler bei der Registrierung: " + error.message;
