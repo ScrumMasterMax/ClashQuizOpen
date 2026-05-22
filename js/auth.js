@@ -13,16 +13,9 @@ if (registerForm) {
     const email = document.getElementById("register_email").value.trim();
     const password = document.getElementById("register_password").value;
 
-    console.log("Form-Werte:", {
-      firstName,
-      lastName,
-      className,
-      email
-    });
-
     registerMessage.textContent = "Registrierung läuft...";
 
-    const payload = {
+    const { error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
@@ -32,24 +25,15 @@ if (registerForm) {
           class_name: className
         }
       }
-    };
-
-    console.log("SignUp Payload:", payload);
-
-    const { data, error } = await supabaseClient.auth.signUp(payload);
-
-    console.log("SignUp Antwort:", { data, error });
+    });
 
     if (error) {
       registerMessage.textContent = "Fehler bei der Registrierung: " + error.message;
       return;
     }
-    loginMessage.textContent = "Anmeldung erfolgreich! Weiterleitung...";
-    loginForm.reset();
 
-    setTimeout(() => {
-    window.location.href = "dashboard.html";
-}, 800);
+    registerMessage.textContent = "Registrierung erfolgreich! Du kannst dich jetzt anmelden.";
+    registerForm.reset();
   });
 }
 
@@ -75,7 +59,34 @@ if (loginForm) {
       return;
     }
 
-    loginMessage.textContent = "Anmeldung erfolgreich!";
+    loginMessage.textContent = "Anmeldung erfolgreich! Weiterleitung...";
     loginForm.reset();
+
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 800);
   });
 }
+
+async function protectDashboard() {
+  const isDashboardPage = window.location.pathname.includes("dashboard.html");
+
+  if (!isDashboardPage) return;
+
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error || !data.user) {
+    window.location.href = "login.html";
+  }
+}
+
+const logoutButton = document.getElementById("logout-button");
+
+if (logoutButton) {
+  logoutButton.addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
+  });
+}
+
+protectDashboard();
