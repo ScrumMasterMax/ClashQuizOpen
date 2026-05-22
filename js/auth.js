@@ -44,9 +44,8 @@ if (registerForm) {
       registerMessage.textContent = "Fehler bei der Registrierung: " + error.message;
       return;
     }
-
-    registerMessage.textContent = "Registrierung erfolgreich! Du kannst dich jetzt anmelden.";
-    registerForm.reset();
+    loginMessage.textContent = "Anmeldung erfolgreich!";
+    loginForm.reset();
   });
 }
 
