@@ -44,8 +44,12 @@ if (registerForm) {
       registerMessage.textContent = "Fehler bei der Registrierung: " + error.message;
       return;
     }
-    loginMessage.textContent = "Anmeldung erfolgreich!";
+    loginMessage.textContent = "Anmeldung erfolgreich! Weiterleitung...";
     loginForm.reset();
+
+    setTimeout(() => {
+    window.location.href = "dashboard.html";
+}, 800);
   });
 }
 
