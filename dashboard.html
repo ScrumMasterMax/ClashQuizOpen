@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ClashQuiz</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #D8B34B;
+      --light-gray: #D4D5D7;
+      --medium-gray: #9A9DA3;
+      --dark-gray: #585B61;
+      --dark-blue: #1B1C20;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark-blue);
+      background-color: var(--light-gray);
+    }
+
+    header {
+      background-color: var(--dark-blue);
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .logo-img {
+      height: 45px;
+      width: auto;
+    }
+
+    .logout-btn {
+      background-color: var(--gold);
+      color: var(--dark-blue);
+      text-decoration: none;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: #c9a03f;
+      transform: translateY(-1px);
+    }
+
+    .dashboard-hero {
+      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
+      color: var(--white);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .dashboard-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .dashboard-hero .highlight {
+      color: var(--gold);
+    }
+
+    .dashboard-hero*
+
