@@ -71,12 +71,58 @@ if (loginForm) {
 async function protectDashboard() {
   const isDashboardPage = window.location.pathname.includes("dashboard.html");
 
-  if (!isDashboardPage) return;
+  if (!isDashboardPage) return null;
 
   const { data, error } = await supabaseClient.auth.getUser();
 
   if (error || !data.user) {
     window.location.href = "login.html";
+    return null;
+  }
+
+  return data.user;
+}
+
+async function loadProfileData() {
+  const isDashboardPage = window.location.pathname.includes("dashboard.html");
+
+  if (!isDashboardPage) return;
+
+  const user = await protectDashboard();
+  if (!user) return;
+
+  const welcomeName = document.getElementById("welcome-name");
+  const welcomeClass = document.getElementById("welcome-class");
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("first_name, last_name, class_name")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !data) {
+    if (welcomeName) {
+      welcomeName.textContent = "Willkommen zurück!";
+    }
+
+    if (welcomeClass) {
+      welcomeClass.textContent = "Deine Profildaten konnten nicht geladen werden.";
+    }
+    return;
+  }
+
+  const fullName = `${data.first_name ?? ""} ${data.last_name ?? ""}`.trim();
+
+  if (welcomeName) {
+    welcomeName.textContent = fullName
+      ? `Willkommen zurück, ${fullName}!`
+      : "Willkommen zurück!";
+  }
+
+  if (welcomeClass) {
+    welcomeClass.textContent = data.class_name
+      ? `Klasse: ${data.class_name}`
+      : "Keine Klasse hinterlegt.";
   }
 }
 
@@ -89,4 +135,4 @@ if (logoutButton) {
   });
 }
 
-protectDashboard();
+loadProfileData();
