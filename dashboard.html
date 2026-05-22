@@ -25,6 +25,7 @@
       --dark-blue: #1B1C20;
       --white: #ffffff;
       --soft-bg: #ececed;
+      --card-border: #d8d9dc;
     }
 
     body {
@@ -188,21 +189,27 @@
 
     .subjects-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 1.5rem;
+      align-items: stretch;
     }
 
     .subject-card {
-      background-color: var(--soft-bg);
-      border-radius: 14px;
+      background: linear-gradient(180deg, #f8f8f9 0%, #eeeeef 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
       padding: 1.5rem;
       border-top: 5px solid var(--gold);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .subject-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
     }
 
     .subject-card h3 {
@@ -213,8 +220,13 @@
 
     .subject-card p {
       color: var(--dark-gray);
-      margin-bottom: 1.2rem;
-      min-height: 72px;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .subject-card .action-btn {
+      margin-top: auto;
+      align-self: flex-start;
     }
 
     .action-btn {
@@ -285,8 +297,9 @@
         padding: 1.5rem;
       }
 
-      .subject-card p {
-        min-height: auto;
+      .subject-card .action-btn {
+        align-self: stretch;
+        text-align: center;
       }
     }
   </style>
