@@ -66,6 +66,25 @@
       width: auto;
     }
 
+    .action-btn {
+      background-color: var(--gold);
+      color: var(--dark-blue);
+      text-decoration: none;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .action-btn:hover {
+      background-color: #c9a03f;
+      transform: translateY(-1px);
+    }
+
     .logout-btn {
       background-color: var(--gold);
       color: var(--dark-blue);
@@ -157,6 +176,19 @@
       color: var(--medium-gray);
     }
 
+    .subjects-wrapper {
+      grid-column: 1 / -1;
+    }
+
+    .subjects-list {
+      margin-top: 1.5rem;
+    }
+
+    .status-text {
+      color: var(--medium-gray);
+      font-style: italic;
+    }
+
     footer {
       background-color: var(--dark-blue);
       color: var(--light-gray);
@@ -202,7 +234,7 @@
 
   <section class="dashboard-hero">
     <h1>Willkommen im <span class="highlight">Dashboard</span></h1>
-    <p>Hier beginnt dein persönlicher Lernbereich. Verwalte deine Fortschritte, starte Quizze und fordere andere heraus.</p>
+    <p>Hier beginnt dein persönlicher Lernbereich. Wähle ein Fach aus und starte dein nächstes Quiz.</p>
   </section>
 
   <section class="dashboard-section">
@@ -218,19 +250,13 @@
           <p id="welcome-class">Deine Profildaten werden geladen...</p>
         </div>
 
-        <div class="dashboard-card">
-          <h3>Meine Quizze</h3>
-          <p>Starte neue Quizrunden oder setze begonnene Challenges fort.</p>
-        </div>
+        <div class="dashboard-card subjects-wrapper">
+          <h3>Meine Fächer</h3>
+          <p>Wähle ein Fach aus und starte dein Quiz.</p>
 
-        <div class="dashboard-card">
-          <h3>Fortschritt</h3>
-          <p>Behalte deinen Lernfortschritt und deine Statistiken im Blick.</p>
-        </div>
-
-        <div class="dashboard-card">
-          <h3>Duelle</h3>
-          <p>Fordere Freunde heraus und miss dich in spannenden Quiz-Duellen.</p>
+          <div id="subjects-list" class="dashboard-grid subjects-list">
+            <p class="status-text">Fächer werden geladen...</p>
+          </div>
         </div>
       </div>
     </div>
@@ -247,5 +273,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
