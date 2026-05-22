@@ -24,7 +24,7 @@ async function loadSubjects() {
   subjectsList.innerHTML = data
     .map(
       (subject) => `
-        <div class="dashboard-card">
+        <div class="subject-card">
           <h3>${subject.name}</h3>
           <p>${subject.description ?? "Keine Beschreibung vorhanden."}</p>
           <button class="action-btn" onclick="startQuiz('${subject.id}', '${subject.name}')">
@@ -39,7 +39,7 @@ async function loadSubjects() {
 function startQuiz(subjectId, subjectName) {
   localStorage.setItem("selectedSubjectId", subjectId);
   localStorage.setItem("selectedSubjectName", subjectName);
-  alert(`Quiz für ${subjectName} wird im nächsten Schritt eingebaut.`);
+  alert(\`Quiz für ${subjectName} wird im nächsten Schritt eingebaut.\`);
 }
 
 loadSubjects();
