@@ -24,6 +24,7 @@
       --dark-gray: #585B61;
       --dark-blue: #1B1C20;
       --white: #ffffff;
+      --soft-bg: #ececed;
     }
 
     body {
@@ -35,18 +36,18 @@
 
     header {
       background-color: var(--dark-blue);
-      padding: 1.2rem 0;
+      padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 0 2rem;
     }
@@ -58,43 +59,23 @@
       text-decoration: none;
       color: var(--gold);
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
 
     .logo-img {
-      height: 45px;
+      height: 42px;
       width: auto;
-    }
-
-    .action-btn {
-      background-color: var(--gold);
-      color: var(--dark-blue);
-      text-decoration: none;
-      border: none;
-      padding: 0.7rem 1.4rem;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-block;
-      margin-top: 1rem;
-    }
-
-    .action-btn:hover {
-      background-color: #c9a03f;
-      transform: translateY(-1px);
     }
 
     .logout-btn {
       background-color: var(--gold);
       color: var(--dark-blue);
-      text-decoration: none;
       border: none;
-      padding: 0.7rem 1.4rem;
-      border-radius: 6px;
+      padding: 0.7rem 1.3rem;
+      border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.25s ease;
     }
 
     .logout-btn:hover {
@@ -102,103 +83,172 @@
       transform: translateY(-1px);
     }
 
-    .dashboard-hero {
-      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
-      color: var(--white);
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-
-    .dashboard-hero h1 {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .dashboard-hero .highlight {
-      color: var(--gold);
-    }
-
-    .dashboard-hero p {
-      color: var(--light-gray);
-      max-width: 700px;
-      margin: 0 auto;
-      font-size: 1.1rem;
-    }
-
-    .dashboard-section {
-      padding: 4rem 2rem;
+    .dashboard-shell {
+      padding: 2.5rem 1.5rem 4rem;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
-    .welcome-box {
-      background-color: var(--white);
-      border-radius: 12px;
+    .dashboard-intro {
+      background: linear-gradient(135deg, rgba(27, 28, 32, 0.98) 0%, rgba(88, 91, 97, 0.96) 100%);
+      color: var(--white);
+      border-radius: 18px;
       padding: 2rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
       margin-bottom: 2rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      border-left: 6px solid var(--gold);
     }
 
-    .welcome-box h2 {
-      margin-bottom: 0.5rem;
-      color: var(--dark-blue);
+    .dashboard-intro-topline {
+      display: inline-block;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
     }
 
-    .welcome-box p {
-      color: var(--medium-gray);
+    .dashboard-intro h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
     }
 
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
+    .dashboard-intro p {
+      color: var(--light-gray);
+      max-width: 720px;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .dashboard-card {
+    .profile-panel {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .profile-panel-label {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.35rem;
+    }
+
+    .profile-panel h2 {
+      font-size: 1.35rem;
+      margin-bottom: 0.35rem;
+      color: var(--white);
+    }
+
+    .profile-panel p {
+      margin: 0;
+      font-size: 0.98rem;
+      color: var(--light-gray);
+    }
+
+    .content-section {
       background-color: var(--white);
-      border-radius: 12px;
+      border-radius: 18px;
       padding: 2rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      border-top: 5px solid var(--gold);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
     }
 
-    .dashboard-card h3 {
-      margin-bottom: 1rem;
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header span {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+    }
+
+    .section-header h3 {
+      font-size: 1.6rem;
       color: var(--dark-blue);
-      font-size: 1.3rem;
     }
 
-    .dashboard-card p {
+    .section-header p {
       color: var(--medium-gray);
-    }
-
-    .subjects-wrapper {
-      grid-column: 1 / -1;
+      max-width: 700px;
     }
 
     .subjects-list {
-      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .subject-card {
+      background-color: var(--soft-bg);
+      border-radius: 14px;
+      padding: 1.5rem;
+      border-top: 5px solid var(--gold);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .subject-card h3 {
+      font-size: 1.2rem;
+      color: var(--dark-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .subject-card p {
+      color: var(--dark-gray);
+      margin-bottom: 1.2rem;
+      min-height: 72px;
+    }
+
+    .action-btn {
+      background-color: var(--gold);
+      color: var(--dark-blue);
+      border: none;
+      padding: 0.75rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .action-btn:hover {
+      background-color: #c9a03f;
+      transform: translateY(-1px);
     }
 
     .status-text {
       color: var(--medium-gray);
       font-style: italic;
+      padding: 0.5rem 0;
     }
 
     footer {
       background-color: var(--dark-blue);
       color: var(--light-gray);
-      padding: 3rem 2rem;
+      padding: 2.5rem 1.5rem;
       text-align: center;
       margin-top: 3rem;
     }
 
     .footer-content {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
@@ -207,16 +257,36 @@
     }
 
     @media (max-width: 768px) {
-      .dashboard-hero h1 {
-        font-size: 2rem;
-      }
-
       nav {
         padding: 0 1rem;
       }
 
       .logo-img {
-        height: 35px;
+        height: 36px;
+      }
+
+      .logo-container {
+        font-size: 1.2rem;
+      }
+
+      .dashboard-shell {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .dashboard-intro {
+        padding: 1.5rem;
+      }
+
+      .dashboard-intro h1 {
+        font-size: 1.6rem;
+      }
+
+      .content-section {
+        padding: 1.5rem;
+      }
+
+      .subject-card p {
+        min-height: auto;
       }
     }
   </style>
@@ -232,35 +302,38 @@
     </nav>
   </header>
 
-  <section class="dashboard-hero">
-    <h1>Willkommen im <span class="highlight">Dashboard</span></h1>
-    <p>Hier beginnt dein persönlicher Lernbereich. Wähle ein Fach aus und starte dein nächstes Quiz.</p>
-  </section>
-
-  <section class="dashboard-section">
+  <main class="dashboard-shell">
     <div class="container">
-      <div class="welcome-box">
-        <h2>Schön, dass du da bist!</h2>
-        <p>Du bist erfolgreich angemeldet und kannst jetzt auf geschützte Inhalte zugreifen.</p>
-      </div>
+      <section class="dashboard-intro">
+        <span class="dashboard-intro-topline">Dein Lernbereich</span>
+        <h1>Willkommen zurück bei ClashQuiz</h1>
+        <p>
+          Starte direkt mit dem nächsten Fach, verfolge deinen Lernfortschritt
+          und arbeite dich Schritt für Schritt durch deine Quizbereiche.
+        </p>
 
-      <div class="dashboard-grid">
-        <div class="welcome-box">
+        <div class="profile-panel">
+          <div class="profile-panel-label">Profil</div>
           <h2 id="welcome-name">Schön, dass du da bist!</h2>
           <p id="welcome-class">Deine Profildaten werden geladen...</p>
         </div>
+      </section>
 
-        <div class="dashboard-card subjects-wrapper">
-          <h3>Meine Fächer</h3>
-          <p>Wähle ein Fach aus und starte dein Quiz.</p>
-
-          <div id="subjects-list" class="dashboard-grid subjects-list">
-            <p class="status-text">Fächer werden geladen...</p>
-          </div>
+      <section class="content-section">
+        <div class="section-header">
+          <span>Fächerübersicht</span>
+          <h3>Wähle dein Fach</h3>
+          <p>
+            Suche dir einen Bereich aus und starte von hier aus dein nächstes Quiz.
+          </p>
         </div>
-      </div>
+
+        <div id="subjects-list" class="subjects-list">
+          <p class="status-text">Fächer werden geladen...</p>
+        </div>
+      </section>
     </div>
-  </section>
+  </main>
 
   <footer>
     <div class="footer-content">
