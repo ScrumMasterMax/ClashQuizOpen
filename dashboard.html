@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ClashQuiz</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #D8B34B;
+      --light-gray: #D4D5D7;
+      --medium-gray: #9A9DA3;
+      --dark-gray: #585B61;
+      --dark-blue: #1B1C20;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark-blue);
+      background-color: var(--light-gray);
+    }
+
+    header {
+      background-color: var(--dark-blue);
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .logo-img {
+      height: 45px;
+      width: auto;
+    }
+
+    .logout-btn {
+      background-color: var(--gold);
+      color: var(--dark-blue);
+      text-decoration: none;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: #c9a03f;
+      transform: translateY(-1px);
+    }
+
+    .dashboard-hero {
+      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
+      color: var(--white);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .dashboard-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .dashboard-hero .highlight {
+      color: var(--gold);
+    }
+
+    .dashboard-hero p {
+      color: var(--light-gray);
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    .dashboard-section {
+      padding: 4rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .welcome-box {
+      background-color: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-left: 6px solid var(--gold);
+    }
+
+    .welcome-box h2 {
+      margin-bottom: 0.5rem;
+      color: var(--dark-blue);
+    }
+
+    .welcome-box p {
+      color: var(--medium-gray);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .dashboard-card {
+      background-color: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-top: 5px solid var(--gold);
+    }
+
+    .dashboard-card h3 {
+      margin-bottom: 1rem;
+      color: var(--dark-blue);
+      font-size: 1.3rem;
+    }
+
+    .dashboard-card p {
+      color: var(--medium-gray);
+    }
+
+    footer {
+      background-color: var(--dark-blue);
+      color: var(--light-gray);
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-bottom {
+      color: var(--medium-gray);
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-hero h1 {
+        font-size: 2rem;
+      }
+
+      nav {
+        padding: 0 1rem;
+      }
+
+      .logo-img {
+        height: 35px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html" class="logo-container">
+        <img src="images/clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
+        ClashQuiz
+      </a>
+      <button id="logout-button" class="logout-btn">Logout</button>
+    </nav>
+  </header>
+
+  <section class="dashboard-hero">
+    <h1>Willkommen im <span class="highlight">Dashboard</span></h1>
+    <p>Hier beginnt dein persönlicher Lernbereich. Verwalte deine Fortschritte, starte Quizze und fordere andere heraus.</p>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="container">
+      <div class="welcome-box">
+        <h2>Schön, dass du da bist!</h2>
+        <p>Du bist erfolgreich angemeldet und kannst jetzt auf geschützte Inhalte zugreifen.</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="welcome-box">
+          <h2 id="welcome-name">Schön, dass du da bist!</h2>
+          <p id="welcome-class">Deine Profildaten werden geladen...</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Meine Quizze</h3>
+          <p>Starte neue Quizrunden oder setze begonnene Challenges fort.</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Fortschritt</h3>
+          <p>Behalte deinen Lernfortschritt und deine Statistiken im Blick.</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Duelle</h3>
+          <p>Fordere Freunde heraus und miss dich in spannenden Quiz-Duellen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-bottom">
+        <p>&copy; 2026 ClashQuiz. Alle Rechte vorbehalten. | Intelligentes Lernen für alle.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

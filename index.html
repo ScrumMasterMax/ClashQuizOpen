@@ -23,10 +23,10 @@
     <title>ClashQuiz - Intelligentes Lernquiz</title>
 
     <!-- Favicons / Tab-Icons / in verschiedenen Auflösungen, 32x32, 16x16, und auch als für Apple Devices-->
-    <link rel="icon" href="favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
     <style>
         /*
@@ -626,7 +626,7 @@
         <nav>
             <a href="#" class="logo-container">
                 <!-- Logo-Bild: relativ zur index.html referenziert. Wenn du GH Pages nutzt, funktioniert der relative Pfad im Repo-Root. -->
-                <img src="clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
+                <img src="images/clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
                 <!--
                   Markenname neben dem Logo: sichtbar, falls das Bild nicht geladen werden kann oder Screenreader es übergeht.
                   Text bleibt in .logo-container bewusst farblich hervorgehoben (var(--gold)).
@@ -641,7 +641,7 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#learning">Lernpfad</a></li>
                 <li><a href="#cta">Start</a></li>
-                <li><a href="#" class="nav-cta">Login</a></li>
+                <li><a href="login.html" class="nav-cta">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -830,7 +830,7 @@
         <div class="container">
             <h2>Starte dein Lernabenteu<span class="highlight">r</span></h2>
             <p>Registriere dich kostenlos und entdecke eine neue Art zu lernen — intelligent, unterhaltsam und effektiv!</p>
-            <button class="btn btn-primary">Jetzt kostenlos registrieren</button>
+            <a href="register.html" class="btn btn-primary">Jetzt kostenlos registrieren</a>
         </div>
     </section>
 
@@ -861,6 +861,10 @@
       - Performance: Externe Bilder/Assets können in /public oder CDN ausgelagert werden.
       - Internationalisierung: Falls Mehrsprachigkeit geplant, Struktur für i18n vorsehen.
       - Tests: Nutze Lighthouse, um Performance, Accessibility und SEO zu prüfen.
-    -->
+    -->  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script> 
+  <!-- Hier an dieser Stelle wird die Authentifizierung und der Login eingebunden.-->
 </body>
 </html>
