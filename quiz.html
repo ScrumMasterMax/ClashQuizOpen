@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - ClashQuiz</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #D8B34B;
+      --light-gray: #D4D5D7;
+      --medium-gray: #9A9DA3;
+      --dark-gray: #585B61;
+      --dark-blue: #1B1C20;
+      --white: #ffffff;
+      --soft-bg: #ececed;
+      --green: #2e8b57;
+      --red: #c0392b;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light-gray);
+      color: var(--dark-blue);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--dark-blue);
+      padding: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 1.4rem;
+    }
+
+    .logo-img {
+      height: 40px;
+      width: auto;
+    }
+
+    .back-btn {
+      background-color: var(--gold);
+      color: var(--dark-blue);
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .quiz-shell {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .quiz-header {
+      background: linear-gradient(135deg, rgba(27, 28, 32, 0.98) 0%, rgba(88, 91, 97, 0.96) 100%);
+      color: var(--white);
+      border-radius: 18px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .quiz-header span {
+      display: inline-block;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.04em;
+    }
+
+    .quiz-header h1 {
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz-header p {
+      color: var(--light-gray);
+    }
+
+    .quiz-card {
+      background-color: var(--white);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    .quiz-progress {
+      font-size: 0.95rem;
+      color: var(--medium-gray);
+      margin-bottom: 1rem;
+    }
+
+    .question-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--dark-blue);
+    }
+
+    .answers-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .answer-btn {
+      width: 100%;
+      text-align: left;
+      border: 2px solid #e1e2e5;
+      background-color: #f9f9fa;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+      color: var(--dark-blue);
+    }
+
+    .answer-btn:hover {
+      border-color: var(--gold);
+      background-color: #fffdf8;
+    }
+
+    .answer-btn.correct {
+      border-color: var(--green);
+      background-color: #eaf7f0;
+    }
+
+    .answer-btn.wrong {
+      border-color: var(--red);
+      background-color: #fdeceb;
+    }
+
+    .quiz-feedback {
+      margin-top: 1.5rem;
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      background-color: var(--soft-bg);
+      color: var(--dark-gray);
+    }
+
+    .quiz-feedback strong {
+      color: var(--dark-blue);
+    }
+
+    .quiz-actions {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .next-btn {
+      background-color: var(--gold);
+      color: var(--dark-blue);
+      border: none;
+      padding: 0.8rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+    }
+
+    .result-box {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .result-box h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .result-box p {
+      color: var(--dark-gray);
+      margin-bottom: 1rem;
+    }
+
+    .status-text {
+      color: var(--medium-gray);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 1rem;
+      }
+
+      .quiz-card,
+      .quiz-header {
+        padding: 1.4rem;
+      }
+
+      .quiz-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .question-text {
+        font-size: 1.15rem;
+      }
+
+      .next-btn,
+      .back-btn {
+        width: 100%;
+      }
+
+      .quiz-actions {
+        justify-content: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="dashboard.html" class="logo-container">
+        <img src="images/clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
+        ClashQuiz
+      </a>
+      <button class="back-btn" onclick="goBackToDashboard()">Zurück</button>
+    </nav>
+  </header>
+
+  <main class="quiz-shell">
+    <section class="quiz-header">
+      <span>Quizmodus</span>
+      <h1 id="quiz-subject-title">Fach wird geladen...</h1>
+      <p>Beantworte die Fragen Schritt für Schritt und überprüfe direkt dein Wissen.</p>
+    </section>
+
+    <section class="quiz-card">
+      <div id="quiz-content">
+        <p class="status-text">Fragen werden geladen...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+</html>
