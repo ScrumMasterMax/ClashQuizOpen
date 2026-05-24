@@ -46,8 +46,7 @@ async function loadSubjects() {
 function startQuiz(subjectId, subjectName) {
   localStorage.setItem("selectedSubjectId", subjectId);
   localStorage.setItem("selectedSubjectName", subjectName);
-
-  alert(`Quiz für ${subjectName} wird im nächsten Schritt eingebaut.`);
+  window.location.href = "quiz.html";
 }
 
 function escapeHtml(value) {
