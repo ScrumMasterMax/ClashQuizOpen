@@ -2,6 +2,9 @@ let quizQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let answerLocked = false;
+let currentAttemptId = null;
+let currentUserId = null;
+let currentSubjectId = null;
 
 async function initQuizPage() {
   const isQuizPage = window.location.pathname.includes("quiz.html");
@@ -9,6 +12,8 @@ async function initQuizPage() {
 
   const subjectId = localStorage.getItem("selectedSubjectId");
   const subjectName = localStorage.getItem("selectedSubjectName");
+
+  currentSubjectId = subjectId;
 
   const titleElement = document.getElementById("quiz-subject-title");
   const quizContent = document.getElementById("quiz-content");
@@ -28,6 +33,30 @@ async function initQuizPage() {
 
   if (titleElement) {
     titleElement.textContent = `Quiz: ${subjectName}`;
+  }
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    console.error("Kein eingeloggter Nutzer gefunden.");
+    quizContent.innerHTML = `
+      <p class="status-text">Du musst angemeldet sein, um ein Quiz zu starten.</p>
+    `;
+    return;
+  }
+
+  currentUserId = user.id;
+
+  const attemptCreated = await createQuizAttempt();
+
+  if (!attemptCreated) {
+    quizContent.innerHTML = `
+      <p class="status-text">Der Quizversuch konnte nicht gestartet werden.</p>
+    `;
+    return;
   }
 
   const { data, error } = await supabaseClient
@@ -67,6 +96,27 @@ async function initQuizPage() {
   answerLocked = false;
 
   renderQuestion();
+}
+
+async function createQuizAttempt() {
+  const { data, error } = await supabaseClient
+    .from("quiz_attempts")
+    .insert([
+      {
+        user_id: currentUserId,
+        subject_id: currentSubjectId
+      }
+    ])
+    .select("id")
+    .single();
+
+  if (error || !data) {
+    console.error("Fehler beim Erstellen des Quizversuchs:", error?.message);
+    return false;
+  }
+
+  currentAttemptId = data.id;
+  return true;
 }
 
 function renderQuestion() {
@@ -188,7 +238,8 @@ function restartQuiz() {
   currentQuestionIndex = 0;
   score = 0;
   answerLocked = false;
-  renderQuestion();
+  currentAttemptId = null;
+  initQuizPage();
 }
 
 function goBackToDashboard() {
