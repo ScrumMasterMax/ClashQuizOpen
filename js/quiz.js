@@ -161,7 +161,7 @@ function renderQuestion() {
   `;
 }
 
-function handleAnswer(selectedAnswer) {
+async function handleAnswer(selectedAnswer) {
   if (answerLocked) return;
 
   answerLocked = true;
@@ -172,6 +172,14 @@ function handleAnswer(selectedAnswer) {
   const answerButtons = document.querySelectorAll(".answer-btn");
 
   const isCorrect = selectedAnswer === question.correct_answer;
+
+  const answerSaved = await saveQuizAnswer(question, selectedAnswer, isCorrect);
+
+  if (!answerSaved) {
+    answerLocked = false;
+    alert("Die Antwort konnte nicht gespeichert werden. Bitte versuche es erneut.");
+    return;
+  }
 
   if (isCorrect) {
     score += 1;
@@ -206,6 +214,27 @@ function handleAnswer(selectedAnswer) {
       nextButton.textContent = "Ergebnis ansehen";
     }
   }
+}
+
+async function saveQuizAnswer(question, selectedAnswer, isCorrect) {
+  const { error } = await supabaseClient
+    .from("quiz_answers")
+    .insert([
+      {
+        attempt_id: currentAttemptId,
+        question_id: question.id,
+        user_id: currentUserId,
+        selected_answer: selectedAnswer,
+        is_correct: isCorrect
+      }
+    ]);
+
+  if (error) {
+    console.error("Fehler beim Speichern der Antwort:", error.message);
+    return false;
+  }
+
+  return true;
 }
 
 function goToNextQuestion() {
