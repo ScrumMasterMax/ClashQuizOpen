@@ -71,7 +71,8 @@
     }
 
     .back-btn,
-    .next-btn {
+    .next-btn,
+    .restart-btn {
       background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
       color: var(--dark-blue);
       border: none;
@@ -84,9 +85,17 @@
     }
 
     .back-btn:hover,
-    .next-btn:hover {
+    .next-btn:hover,
+    .restart-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 18px rgba(216, 179, 75, 0.26);
+    }
+
+    .next-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 6px 14px rgba(216, 179, 75, 0.12);
     }
 
     .quiz-shell {
@@ -140,7 +149,7 @@
     }
 
     .question-text {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--dark-blue);
@@ -149,7 +158,8 @@
 
     .answers-list {
       display: grid;
-      gap: 0.8rem;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
     }
 
     .answer-btn {
@@ -158,13 +168,13 @@
       border: 2px solid #e1e2e5;
       background: linear-gradient(180deg, #fbfbfc 0%, #f2f3f4 100%);
       border-radius: 12px;
-      padding: 0.9rem 1rem;
+      padding: 0.85rem 1rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      font-size: 0.97rem;
+      font-size: 0.96rem;
       color: var(--dark-blue);
       line-height: 1.4;
-      min-height: 58px;
+      min-height: 54px;
     }
 
     .answer-btn:hover {
@@ -184,13 +194,20 @@
     }
 
     .quiz-feedback {
-      margin-top: 0.95rem;
+      min-height: 72px;
       padding: 0.9rem 1rem;
       border-radius: 12px;
       background-color: var(--soft-bg);
       color: var(--dark-gray);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       line-height: 1.45;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-feedback.empty {
+      visibility: hidden;
     }
 
     .quiz-feedback strong {
@@ -198,13 +215,9 @@
     }
 
     .quiz-actions {
-      margin-top: 1rem;
       display: flex;
       justify-content: flex-end;
-    }
-
-    .next-btn {
-      display: none;
+      min-height: 48px;
     }
 
     .result-box {
@@ -220,6 +233,14 @@
     .result-box p {
       color: var(--dark-gray);
       margin-bottom: 0.75rem;
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
     }
 
     .status-text {
@@ -246,48 +267,23 @@
       }
 
       .question-text {
-        font-size: 1.05rem;
+        font-size: 1.02rem;
       }
 
       .back-btn,
-      .next-btn {
+      .next-btn,
+      .restart-btn {
         width: 100%;
       }
 
       .quiz-actions {
         justify-content: stretch;
       }
+
+      .result-actions {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
-<body>
-  <header>
-    <nav>
-      <a href="dashboard.html" class="logo-container">
-        <img src="images/clash_quiz_logo.png" alt="ClashQuiz Logo - Lernquiz" class="logo-img" />
-        ClashQuiz
-      </a>
-      <button class="back-btn" onclick="goBackToDashboard()">Zurück</button>
-    </nav>
-  </header>
-
-  <main class="quiz-shell">
-    <section class="quiz-header">
-      <span>Quizmodus</span>
-      <h1 id="quiz-subject-title">Fach wird geladen...</h1>
-      <p>Beantworte die Fragen direkt und ohne Ablenkung.</p>
-    </section>
-
-    <section class="quiz-card">
-      <div id="quiz-content">
-        <p class="status-text">Fragen werden geladen...</p>
-      </div>
-    </section>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/quiz.js"></script>
-</body>
-</html>
+<body*
