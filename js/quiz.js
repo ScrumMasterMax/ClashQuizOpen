@@ -237,14 +237,39 @@ async function saveQuizAnswer(question, selectedAnswer, isCorrect) {
   return true;
 }
 
-function goToNextQuestion() {
+async function goToNextQuestion() {
   if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex += 1;
     renderQuestion();
     return;
   }
 
+  await finishQuizAttempt();
   renderFinalResult();
+}
+
+async function finishQuizAttempt() {
+  if (!currentAttemptId) {
+    console.error("Keine Attempt-ID vorhanden.");
+    return false;
+  }
+
+  const { error } = await supabaseClient
+    .from("quiz_attempts")
+    .update({
+      completed_at: new Date().toISOString(),
+      score: score,
+      total_questions: quizQuestions.length
+    })
+    .eq("id", currentAttemptId)
+    .eq("user_id", currentUserId);
+
+  if (error) {
+    console.error("Fehler beim Abschließen des Quizversuchs:", error.message);
+    return false;
+  }
+
+  return true;
 }
 
 function renderFinalResult() {
