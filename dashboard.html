@@ -19,6 +19,7 @@
 
     :root {
       --gold: #D8B34B;
+      --gold-dark: #c9a03f;
       --light-gray: #D4D5D7;
       --medium-gray: #9A9DA3;
       --dark-gray: #585B61;
@@ -26,22 +27,28 @@
       --white: #ffffff;
       --soft-bg: #ececed;
       --card-border: #d8d9dc;
+      --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.08);
+      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.06);
+      --shadow-strong: 0 14px 34px rgba(0, 0, 0, 0.14);
     }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: var(--dark-blue);
-      background-color: var(--light-gray);
+      background:
+        radial-gradient(circle at top left, rgba(216, 179, 75, 0.08), transparent 22%),
+        var(--light-gray);
     }
 
     header {
-      background-color: var(--dark-blue);
+      background-color: rgba(27, 28, 32, 0.96);
+      backdrop-filter: blur(8px);
       padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
     }
 
     nav {
@@ -61,6 +68,7 @@
       color: var(--gold);
       font-weight: 700;
       font-size: 1.4rem;
+      letter-spacing: 0.01em;
     }
 
     .logo-img {
@@ -69,23 +77,24 @@
     }
 
     .logout-btn {
-      background-color: var(--gold);
+      background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
       color: var(--dark-blue);
       border: none;
-      padding: 0.7rem 1.3rem;
-      border-radius: 8px;
-      font-weight: 600;
+      padding: 0.75rem 1.35rem;
+      border-radius: 10px;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.25s ease;
+      box-shadow: 0 6px 16px rgba(216, 179, 75, 0.25);
     }
 
     .logout-btn:hover {
-      background-color: #c9a03f;
       transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(216, 179, 75, 0.28);
     }
 
     .dashboard-shell {
-      padding: 2.5rem 1.5rem 4rem;
+      padding: 2.2rem 1.5rem 4rem;
     }
 
     .container {
@@ -93,129 +102,155 @@
       margin: 0 auto;
     }
 
-    .dashboard-intro {
-      background: linear-gradient(135deg, rgba(27, 28, 32, 0.98) 0%, rgba(88, 91, 97, 0.96) 100%);
-      color: var(--white);
-      border-radius: 18px;
-      padding: 2rem;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-      margin-bottom: 2rem;
-    }
-
-    .dashboard-intro-topline {
-      display: inline-block;
-      font-size: 0.9rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.8rem;
-      font-weight: 700;
-    }
-
-    .dashboard-intro h1 {
-      font-size: 2rem;
-      line-height: 1.2;
-      margin-bottom: 0.8rem;
-      font-weight: 700;
-    }
-
-    .dashboard-intro p {
-      color: var(--light-gray);
-      max-width: 720px;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .profile-panel {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 1.25rem 1.4rem;
-      backdrop-filter: blur(4px);
-    }
-
-    .profile-panel-label {
-      font-size: 0.85rem;
-      color: var(--gold);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.35rem;
-    }
-
-    .profile-panel h2 {
-      font-size: 1.35rem;
-      margin-bottom: 0.35rem;
-      color: var(--white);
-    }
-
-    .profile-panel p {
-      margin: 0;
-      font-size: 0.98rem;
-      color: var(--light-gray);
-    }
-
-    .stats-section,
+    .overview-section,
     .content-section {
-      background-color: var(--white);
-      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 22px;
       padding: 2rem;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow-soft);
       margin-bottom: 2rem;
     }
 
-    .section-header {
+    .overview-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .overview-section::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(216, 179, 75, 0.18) 0%, rgba(216, 179, 75, 0) 70%);
+      pointer-events: none;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.95fr;
+      gap: 1.5rem;
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-box {
+      background: linear-gradient(145deg, rgba(27, 28, 32, 1) 0%, rgba(72, 75, 82, 0.98) 100%);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 1.7rem;
+      box-shadow: var(--shadow-strong);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1.5rem;
+      justify-content: space-between;
+      min-height: 100%;
     }
 
+    .profile-label,
     .section-header span {
-      font-size: 0.85rem;
+      display: inline-block;
+      font-size: 0.78rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
       color: var(--gold);
+      margin-bottom: 0.75rem;
     }
 
-    .section-header h3 {
-      font-size: 1.6rem;
-      color: var(--dark-blue);
+    .profile-box h2 {
+      font-size: 1.5rem;
+      line-height: 1.25;
+      margin-bottom: 0.45rem;
+      color: var(--white);
     }
 
-    .section-header p {
-      color: var(--medium-gray);
-      max-width: 700px;
+    .profile-box p {
+      color: var(--light-gray);
+      font-size: 1rem;
     }
 
-    .stats-grid {
+    .profile-subtext {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(212, 213, 215, 0.85);
+      font-size: 0.92rem;
+    }
+
+    .stats-box {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
 
     .stat-card {
-      background: linear-gradient(180deg, #f8f8f9 0%, #eeeeef 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, #f0f1f2 100%);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 18px;
+      padding: 1.4rem 1.3rem;
       border-top: 5px solid var(--gold);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 150px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(216, 179, 75, 0.14);
+      color: var(--gold-dark);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
     }
 
     .stat-card h4 {
-      font-size: 0.95rem;
+      font-size: 0.84rem;
       color: var(--medium-gray);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.45rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
 
     .stat-card p {
       font-size: 2rem;
       font-weight: 700;
       color: var(--dark-blue);
+      line-height: 1.1;
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.65rem;
+      color: var(--dark-blue);
+      line-height: 1.2;
+    }
+
+    .section-header p {
+      color: var(--medium-gray);
+      max-width: 720px;
     }
 
     .subjects-list {
@@ -226,12 +261,12 @@
     }
 
     .subject-card {
-      background: linear-gradient(180deg, #f8f8f9 0%, #eeeeef 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, #f1f2f3 100%);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 1.5rem;
       border-top: 5px solid var(--gold);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      box-shadow: var(--shadow-card);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       flex-direction: column;
@@ -240,7 +275,7 @@
 
     .subject-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.09);
     }
 
     .subject-card h3 {
@@ -261,19 +296,20 @@
     }
 
     .action-btn {
-      background-color: var(--gold);
+      background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
       color: var(--dark-blue);
       border: none;
-      padding: 0.75rem 1.2rem;
-      border-radius: 8px;
-      font-weight: 600;
+      padding: 0.78rem 1.2rem;
+      border-radius: 10px;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.25s ease;
+      box-shadow: 0 6px 14px rgba(216, 179, 75, 0.22);
     }
 
     .action-btn:hover {
-      background-color: #c9a03f;
       transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(216, 179, 75, 0.26);
     }
 
     .status-text {
@@ -299,6 +335,16 @@
       color: var(--medium-gray);
     }
 
+    @media (max-width: 980px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-box {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
     @media (max-width: 768px) {
       nav {
         padding: 0 1rem;
@@ -313,20 +359,21 @@
       }
 
       .dashboard-shell {
-        padding: 1.5rem 1rem 3rem;
+        padding: 1.4rem 1rem 3rem;
       }
 
-      .dashboard-intro {
-        padding: 1.5rem;
-      }
-
-      .dashboard-intro h1 {
-        font-size: 1.6rem;
-      }
-
-      .stats-section,
+      .overview-section,
       .content-section {
-        padding: 1.5rem;
+        padding: 1.4rem;
+        border-radius: 18px;
+      }
+
+      .stats-box {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card {
+        min-height: auto;
       }
 
       .subject-card .action-btn {
@@ -349,42 +396,44 @@
 
   <main class="dashboard-shell">
     <div class="container">
-      <section class="dashboard-intro">
-        <span class="dashboard-intro-topline">Dein Lernbereich</span>
-        <h1>Willkommen zurück bei ClashQuiz</h1>
-        <p>
-          Starte direkt mit dem nächsten Fach, verfolge deinen Lernfortschritt
-          und arbeite dich Schritt für Schritt durch deine Quizbereiche.
-        </p>
+      <section class="overview-section">
+        <div class="overview-grid">
+          <div class="profile-box">
+            <div>
+              <span class="profile-label">Mein Profil</span>
+              <h2 id="welcome-name">Schön, dass du da bist!</h2>
+              <p id="welcome-class">Deine Profildaten werden geladen...</p>
+            </div>
 
-        <div class="profile-panel">
-          <div class="profile-panel-label">Profil</div>
-          <h2 id="welcome-name">Schön, dass du da bist!</h2>
-          <p id="welcome-class">Deine Profildaten werden geladen...</p>
-        </div>
-      </section>
-
-      <section class="stats-section">
-        <div class="section-header">
-          <span>Deine Statistik</span>
-          <h3>Dein aktueller Lernstand</h3>
-          <p>Hier siehst du deine wichtigsten Kennzahlen aus den bisherigen Quizdurchläufen.</p>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h4>Gespielte Quizze</h4>
-            <p id="stat-attempts">–</p>
+            <div class="profile-subtext">
+              Bereit für die nächste Runde? Wähle unten ein Fach und starte direkt dein nächstes Quiz.
+            </div>
           </div>
 
-          <div class="stat-card">
-            <h4>Richtige Antworten</h4>
-            <p id="stat-correct-answers">–</p>
-          </div>
+          <div class="stats-box">
+            <div class="stat-card">
+              <div class="stat-icon">Q</div>
+              <div>
+                <h4>Gespielte Quizze</h4>
+                <p id="stat-attempts">–</p>
+              </div>
+            </div>
 
-          <div class="stat-card">
-            <h4>Trefferquote</h4>
-            <p id="stat-accuracy">–</p>
+            <div class="stat-card">
+              <div class="stat-icon">✓</div>
+              <div>
+                <h4>Richtige Antworten</h4>
+                <p id="stat-correct-answers">–</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">%</div>
+              <div>
+                <h4>Trefferquote</h4>
+                <p id="stat-accuracy">–</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
