@@ -42,9 +42,11 @@ async function initQuizPage() {
 
   if (userError || !user) {
     console.error("Kein eingeloggter Nutzer gefunden.");
-    quizContent.innerHTML = `
-      <p class="status-text">Du musst angemeldet sein, um ein Quiz zu starten.</p>
-    `;
+    if (quizContent) {
+      quizContent.innerHTML = `
+        <p class="status-text">Du musst angemeldet sein, um ein Quiz zu starten.</p>
+      `;
+    }
     return;
   }
 
@@ -53,9 +55,11 @@ async function initQuizPage() {
   const attemptCreated = await createQuizAttempt();
 
   if (!attemptCreated) {
-    quizContent.innerHTML = `
-      <p class="status-text">Der Quizversuch konnte nicht gestartet werden.</p>
-    `;
+    if (quizContent) {
+      quizContent.innerHTML = `
+        <p class="status-text">Der Quizversuch konnte nicht gestartet werden.</p>
+      `;
+    }
     return;
   }
 
@@ -77,16 +81,20 @@ async function initQuizPage() {
 
   if (error) {
     console.error("Fehler beim Laden der Fragen:", error.message);
-    quizContent.innerHTML = `
-      <p class="status-text">Die Fragen konnten nicht geladen werden.</p>
-    `;
+    if (quizContent) {
+      quizContent.innerHTML = `
+        <p class="status-text">Die Fragen konnten nicht geladen werden.</p>
+      `;
+    }
     return;
   }
 
   if (!data || data.length === 0) {
-    quizContent.innerHTML = `
-      <p class="status-text">Für dieses Fach sind noch keine Fragen vorhanden.</p>
-    `;
+    if (quizContent) {
+      quizContent.innerHTML = `
+        <p class="status-text">Für dieses Fach sind noch keine Fragen vorhanden.</p>
+      `;
+    }
     return;
   }
 
@@ -151,10 +159,12 @@ function renderQuestion() {
       </button>
     </div>
 
-    <div id="quiz-feedback" class="quiz-feedback" style="display: none;"></div>
+    <div id="quiz-feedback" class="quiz-feedback empty">
+      <span>Feedback erscheint hier nach deiner Auswahl.</span>
+    </div>
 
     <div class="quiz-actions">
-      <button id="next-button" class="next-btn" onclick="goToNextQuestion()">
+      <button id="next-button" class="next-btn" onclick="goToNextQuestion()" disabled>
         Nächste Frage
       </button>
     </div>
@@ -201,15 +211,17 @@ async function handleAnswer(selectedAnswer) {
   });
 
   if (feedbackBox) {
-    feedbackBox.style.display = "block";
+    feedbackBox.classList.remove("empty");
     feedbackBox.innerHTML = `
-      <strong>${isCorrect ? "Richtig!" : "Nicht ganz richtig."}</strong><br>
-      ${escapeHtml(question.explanation ?? "Keine Erklärung vorhanden.")}
+      <div>
+        <strong>${isCorrect ? "Richtig!" : "Nicht ganz richtig."}</strong><br>
+        ${escapeHtml(question.explanation ?? "Keine Erklärung vorhanden.")}
+      </div>
     `;
   }
 
   if (nextButton) {
-    nextButton.style.display = "inline-block";
+    nextButton.disabled = false;
     if (currentQuestionIndex === quizQuestions.length - 1) {
       nextButton.textContent = "Ergebnis ansehen";
     }
@@ -238,14 +250,27 @@ async function saveQuizAnswer(question, selectedAnswer, isCorrect) {
 }
 
 async function goToNextQuestion() {
+  if (!answerLocked) return;
+
   if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex += 1;
     renderQuestion();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
     return;
   }
 
   await finishQuizAttempt();
   renderFinalResult();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 async function finishQuizAttempt() {
@@ -283,7 +308,11 @@ function renderFinalResult() {
       <h2>Quiz abgeschlossen</h2>
       <p>Du hast <strong>${score}</strong> von <strong>${quizQuestions.length}</strong> Fragen richtig beantwortet.</p>
       <p>Dein Ergebnis: <strong>${percentage}%</strong></p>
-      <button class="back-btn" onclick="restartQuiz()">Quiz neu starten</button>
+
+      <div class="result-actions">
+        <button class="restart-btn" onclick="restartQuiz()">Quiz neu starten</button>
+        <button class="back-btn" onclick="goBackToDashboard()">Zum Dashboard</button>
+      </div>
     </div>
   `;
 }
