@@ -155,11 +155,13 @@
       color: var(--light-gray);
     }
 
+    .stats-section,
     .content-section {
       background-color: var(--white);
       border-radius: 18px;
       padding: 2rem;
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2rem;
     }
 
     .section-header {
@@ -185,6 +187,35 @@
     .section-header p {
       color: var(--medium-gray);
       max-width: 700px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: linear-gradient(180deg, #f8f8f9 0%, #eeeeef 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border-top: 5px solid var(--gold);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .stat-card h4 {
+      font-size: 0.95rem;
+      color: var(--medium-gray);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .stat-card p {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark-blue);
     }
 
     .subjects-list {
@@ -293,6 +324,7 @@
         font-size: 1.6rem;
       }
 
+      .stats-section,
       .content-section {
         padding: 1.5rem;
       }
@@ -329,6 +361,31 @@
           <div class="profile-panel-label">Profil</div>
           <h2 id="welcome-name">Schön, dass du da bist!</h2>
           <p id="welcome-class">Deine Profildaten werden geladen...</p>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <div class="section-header">
+          <span>Deine Statistik</span>
+          <h3>Dein aktueller Lernstand</h3>
+          <p>Hier siehst du deine wichtigsten Kennzahlen aus den bisherigen Quizdurchläufen.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h4>Gespielte Quizze</h4>
+            <p id="stat-attempts">–</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Richtige Antworten</h4>
+            <p id="stat-correct-answers">–</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Trefferquote</h4>
+            <p id="stat-accuracy">–</p>
+          </div>
         </div>
       </section>
 
