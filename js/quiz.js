@@ -5,6 +5,8 @@ let answerLocked = false;
 let currentAttemptId = null;
 let currentUserId = null;
 let currentSubjectId = null;
+let currentTopicId = null;
+let currentTopicName = null;
 
 async function initQuizPage() {
   const isQuizPage = window.location.pathname.includes("quiz.html");
@@ -12,27 +14,31 @@ async function initQuizPage() {
 
   const subjectId = localStorage.getItem("selectedSubjectId");
   const subjectName = localStorage.getItem("selectedSubjectName");
+  const topicId = localStorage.getItem("selectedTopicId");
+  const topicName = localStorage.getItem("selectedTopicName");
 
   currentSubjectId = subjectId;
+  currentTopicId = topicId;
+  currentTopicName = topicName;
 
   const titleElement = document.getElementById("quiz-subject-title");
   const quizContent = document.getElementById("quiz-content");
 
-  if (!subjectId || !subjectName) {
+  if (!subjectId || !subjectName || !topicId || !topicName) {
     if (titleElement) {
-      titleElement.textContent = "Kein Fach ausgewählt";
+      titleElement.textContent = "Kein Fach oder Themenbereich ausgewählt";
     }
 
     if (quizContent) {
       quizContent.innerHTML = `
-        <p class="status-text">Es wurde kein Fach ausgewählt.</p>
+        <p class="status-text">Es wurde kein Fach oder Themenbereich ausgewählt.</p>
       `;
     }
     return;
   }
 
   if (titleElement) {
-    titleElement.textContent = `Quiz: ${subjectName}`;
+    titleElement.textContent = `Quiz: ${subjectName} – ${topicName}`;
   }
 
   const {
@@ -67,6 +73,8 @@ async function initQuizPage() {
     .from("questions")
     .select(`
       id,
+      subject_id,
+      topic_id,
       question_text,
       answer_a,
       answer_b,
@@ -76,6 +84,7 @@ async function initQuizPage() {
       explanation
     `)
     .eq("subject_id", subjectId)
+    .eq("topic_id", topicId)
     .eq("is_active", true)
     .order("created_at", { ascending: true });
 
@@ -92,7 +101,7 @@ async function initQuizPage() {
   if (!data || data.length === 0) {
     if (quizContent) {
       quizContent.innerHTML = `
-        <p class="status-text">Für dieses Fach sind noch keine Fragen vorhanden.</p>
+        <p class="status-text">Für diesen Themenbereich sind noch keine Fragen vorhanden.</p>
       `;
     }
     return;
@@ -107,14 +116,18 @@ async function initQuizPage() {
 }
 
 async function createQuizAttempt() {
+  const insertPayload = {
+    user_id: currentUserId,
+    subject_id: currentSubjectId
+  };
+
+  if (currentTopicId) {
+    insertPayload.topic_id = currentTopicId;
+  }
+
   const { data, error } = await supabaseClient
     .from("quiz_attempts")
-    .insert([
-      {
-        user_id: currentUserId,
-        subject_id: currentSubjectId
-      }
-    ])
+    .insert([insertPayload])
     .select("id")
     .single();
 
