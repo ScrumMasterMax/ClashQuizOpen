@@ -12,39 +12,81 @@ async function loadSubjects() {
 
   subjectsList.innerHTML = "<p class='status-text'>Fächer werden geladen...</p>";
 
-  const { data, error } = await supabaseClient
+  const { data: subjects, error: subjectsError } = await supabaseClient
     .from("subjects")
     .select("id, name, description")
     .order("name", { ascending: true });
 
-  if (error) {
-    console.error("Fehler beim Laden der Fächer:", error.message);
+  if (subjectsError) {
+    console.error("Fehler beim Laden der Fächer:", subjectsError.message);
     subjectsList.innerHTML =
       "<p class='status-text'>Die Fächer konnten nicht geladen werden.</p>";
     return;
   }
 
-  if (!data || data.length === 0) {
+  if (!subjects || subjects.length === 0) {
     subjectsList.innerHTML =
       "<p class='status-text'>Es sind noch keine Fächer vorhanden.</p>";
     return;
   }
 
-  subjectsList.innerHTML = data
-    .map(
-      (subject) => `
+  const { data: topics, error: topicsError } = await supabaseClient
+    .from("topics")
+    .select("id, subject_id, name, description")
+    .order("name", { ascending: true });
+
+  if (topicsError) {
+    console.error("Fehler beim Laden der Themenbereiche:", topicsError.message);
+    subjectsList.innerHTML =
+      "<p class='status-text'>Die Themenbereiche konnten nicht geladen werden.</p>";
+    return;
+  }
+
+  subjectsList.innerHTML = subjects
+    .map((subject) => {
+      const subjectTopics = (topics || []).filter(
+        (topic) => topic.subject_id === subject.id
+      );
+
+      const optionsHtml =
+        subjectTopics.length > 0
+          ? `
+            <option value="">Themenbereich wählen</option>
+            ${subjectTopics
+              .map(
+                (topic) => `
+                  <option value="${topic.id}">
+                    ${escapeHtml(topic.name)}
+                  </option>
+                `
+              )
+              .join("")}
+          `
+          : `<option value="">Keine Themen verfügbar</option>`;
+
+      return `
         <div class="subject-card">
           <h3>${escapeHtml(subject.name)}</h3>
           <p>${escapeHtml(subject.description ?? "Keine Beschreibung vorhanden.")}</p>
+
+          <label for="topic-select-${subject.id}" class="topic-label">
+            Themenbereich
+          </label>
+
+          <select id="topic-select-${subject.id}" class="topic-select">
+            ${optionsHtml}
+          </select>
+
           <button
             class="action-btn"
-            onclick="startQuiz('${subject.id}', '${escapeForJs(subject.name)}')"
+            onclick="startQuizWithTopic('${subject.id}', '${escapeForJs(subject.name)}')"
+            ${subjectTopics.length === 0 ? "disabled" : ""}
           >
             Quiz starten
           </button>
         </div>
-      `
-    )
+      `;
+    })
     .join("");
 }
 
@@ -115,9 +157,23 @@ function setStatsFallback() {
   if (accuracyElement) accuracyElement.textContent = "–";
 }
 
-function startQuiz(subjectId, subjectName) {
+function startQuizWithTopic(subjectId, subjectName) {
+  const selectElement = document.getElementById(`topic-select-${subjectId}`);
+
+  if (!selectElement || !selectElement.value) {
+    alert("Bitte wähle zuerst einen Themenbereich aus.");
+    return;
+  }
+
+  const selectedTopicId = selectElement.value;
+  const selectedTopicName =
+    selectElement.options[selectElement.selectedIndex].text;
+
   localStorage.setItem("selectedSubjectId", subjectId);
   localStorage.setItem("selectedSubjectName", subjectName);
+  localStorage.setItem("selectedTopicId", selectedTopicId);
+  localStorage.setItem("selectedTopicName", selectedTopicName);
+
   window.location.href = "quiz.html";
 }
 
