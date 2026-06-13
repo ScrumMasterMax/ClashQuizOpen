@@ -76,10 +76,11 @@ async function loadSubjects() {
 
       return `
         <div class="subject-card">
-          <h3>${escapeHtml(subject.name)}</h3>
-          <p>${escapeHtml(subject.description ?? "Keine Beschreibung vorhanden.")}</p>
-
-          <label class="topic-label">Themenbereich</label>
+          <div class="subject-card-top">
+            <h3>${escapeHtml(subject.name)}</h3>
+            <p>${escapeHtml(subject.description ?? "Keine Beschreibung vorhanden.")}</p>
+            <label class="topic-label">Themenbereich</label>
+          </div>
 
           ${topicsHtml}
 
