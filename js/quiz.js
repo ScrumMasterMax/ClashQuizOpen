@@ -31,6 +31,10 @@ async function initQuizPage() {
       titleElement.textContent = "Kein Fach oder Themenbereich ausgewählt";
     }
 
+    if (quizTopicName) {
+      quizTopicName.textContent = "";
+    }
+
     if (quizContent) {
       quizContent.innerHTML = `
         <p class="status-text">Es wurde kein Fach oder Themenbereich ausgewählt.</p>
@@ -40,11 +44,11 @@ async function initQuizPage() {
   }
 
   if (titleElement) {
-    titleElement.textContent = `Quiz: ${subjectName}`;
+    titleElement.textContent = `${subjectName} – ${topicName}`;
   }
 
   if (quizTopicName) {
-    quizTopicName.textContent = `Themenbereich: ${topicName}`;
+    quizTopicName.textContent = "Fragenübersicht";
   }
 
   const {
