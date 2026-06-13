@@ -25,10 +25,8 @@
       --dark-gray: #585B61;
       --dark-blue: #1B1C20;
       --white: #ffffff;
-      --soft-bg: #ececed;
       --card-border: #d8d9dc;
       --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.08);
-      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.06);
       --shadow-strong: 0 14px 34px rgba(0, 0, 0, 0.14);
     }
 
@@ -97,23 +95,20 @@
 
     .login-layout {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1100px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 0.95fr 1.05fr;
       gap: 2rem;
-      align-items: stretch;
+      align-items: center;
     }
 
     .info-panel {
       background: linear-gradient(145deg, rgba(27, 28, 32, 1) 0%, rgba(72, 75, 82, 0.98) 100%);
       color: var(--white);
       border-radius: 22px;
-      padding: 2rem;
+      padding: 2.2rem;
       box-shadow: var(--shadow-strong);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       position: relative;
       overflow: hidden;
     }
@@ -136,14 +131,14 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--gold);
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.9rem;
       position: relative;
       z-index: 1;
     }
 
     .info-panel h1 {
-      font-size: 2.4rem;
-      line-height: 1.2;
+      font-size: 2.5rem;
+      line-height: 1.15;
       margin-bottom: 1rem;
       position: relative;
       z-index: 1;
@@ -156,35 +151,9 @@
     .info-panel p {
       color: var(--light-gray);
       font-size: 1rem;
-      margin-bottom: 1.5rem;
+      max-width: 500px;
       position: relative;
       z-index: 1;
-    }
-
-    .info-points {
-      display: grid;
-      gap: 1rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .info-point {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 1rem 1.1rem;
-    }
-
-    .info-point h3 {
-      font-size: 1rem;
-      margin-bottom: 0.3rem;
-      color: var(--white);
-    }
-
-    .info-point p {
-      margin: 0;
-      color: var(--light-gray);
-      font-size: 0.92rem;
     }
 
     .login-card {
@@ -193,9 +162,6 @@
       border-radius: 22px;
       padding: 2rem;
       box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
 
     .login-card-header {
@@ -389,21 +355,6 @@
           Melde dich an, um auf deine Quizze, gespeicherten Ergebnisse
           und deinen persönlichen Lernfortschritt zuzugreifen.
         </p>
-
-        <div class="info-points">
-          <div class="info-point">
-            <h3>Direkter Zugang</h3>
-            <p>Nach der Anmeldung gelangst du unmittelbar in dein persönliches Dashboard.</p>
-          </div>
-          <div class="info-point">
-            <h3>Gespeicherte Ergebnisse</h3>
-            <p>Bereits absolvierte Quizze und Kennzahlen bleiben für dich übersichtlich verfügbar.</p>
-          </div>
-          <div class="info-point">
-            <h3>Einheitliche Oberfläche</h3>
-            <p>Die Gestaltung orientiert sich am Dashboard und sorgt für einen konsistenten Anwendungsbereich.</p>
-          </div>
-        </div>
       </section>
 
       <section class="login-card">
