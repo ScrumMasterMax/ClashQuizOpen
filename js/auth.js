@@ -32,8 +32,13 @@ if (registerForm) {
       return;
     }
 
-    registerMessage.textContent = "Registrierung erfolgreich! Du kannst dich jetzt anmelden.";
+    registerMessage.textContent = "Registrierung erfolgreich! Weiterleitung zum Login...";
     registerForm.reset();
+
+    setTimeout(() => {
+      const targetUrl = `login.html?email=${encodeURIComponent(email)}`;
+      window.location.href = targetUrl;
+    }, 1200);
   });
 }
 
@@ -41,6 +46,17 @@ const loginForm = document.getElementById("login-form");
 const loginMessage = document.getElementById("login-message");
 
 if (loginForm) {
+  const loginEmailInput = document.getElementById("login_email");
+
+  if (loginEmailInput) {
+    const params = new URLSearchParams(window.location.search);
+    const prefilledEmail = params.get("email");
+
+    if (prefilledEmail) {
+      loginEmailInput.value = prefilledEmail;
+    }
+  }
+
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
