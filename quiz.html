@@ -180,8 +180,19 @@
       background: #fffaf0;
     }
 
-    .question-nav-item.answered {
-      border-color: rgba(216, 179, 75, 0.55);
+    .question-nav-item.correct {
+      border-color: var(--green);
+      background-color: #eaf7f0;
+    }
+
+    .question-nav-item.wrong {
+      border-color: var(--red);
+      background-color: #fdeceb;
+    }
+
+    .question-nav-item.correct.active,
+    .question-nav-item.wrong.active {
+      box-shadow: 0 0 0 3px rgba(216, 179, 75, 0.15);
     }
 
     .question-nav-marker {
