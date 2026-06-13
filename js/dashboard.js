@@ -1,3 +1,5 @@
+const selectedTopicsBySubject = {};
+
 async function initDashboardPage() {
   const isDashboardPage = window.location.pathname.includes("dashboard.html");
   if (!isDashboardPage) return;
@@ -48,36 +50,41 @@ async function loadSubjects() {
         (topic) => topic.subject_id === subject.id
       );
 
-      const optionsHtml =
+      const topicsHtml =
         subjectTopics.length > 0
           ? `
-            <option value="">Themenbereich wählen</option>
-            ${subjectTopics
-              .map(
-                (topic) => `
-                  <option value="${topic.id}">
-                    ${escapeHtml(topic.name)}
-                  </option>
-                `
-              )
-              .join("")}
+            <div class="topic-grid">
+              ${subjectTopics
+                .map(
+                  (topic) => `
+                    <button
+                      type="button"
+                      class="topic-chip"
+                      data-subject-id="${subject.id}"
+                      data-topic-id="${topic.id}"
+                      data-topic-name="${escapeHtml(topic.name)}"
+                      onclick="selectTopic('${subject.id}', '${topic.id}', '${escapeForJs(topic.name)}')"
+                    >
+                      ${escapeHtml(topic.name)}
+                    </button>
+                  `
+                )
+                .join("")}
+            </div>
           `
-          : `<option value="">Keine Themen verfügbar</option>`;
+          : `<p class="topic-empty">Keine Themen verfügbar</p>`;
 
       return `
         <div class="subject-card">
           <h3>${escapeHtml(subject.name)}</h3>
           <p>${escapeHtml(subject.description ?? "Keine Beschreibung vorhanden.")}</p>
 
-          <label for="topic-select-${subject.id}" class="topic-label">
-            Themenbereich
-          </label>
+          <label class="topic-label">Themenbereich</label>
 
-          <select id="topic-select-${subject.id}" class="topic-select">
-            ${optionsHtml}
-          </select>
+          ${topicsHtml}
 
           <button
+            id="start-btn-${subject.id}"
             class="action-btn"
             onclick="startQuizWithTopic('${subject.id}', '${escapeForJs(subject.name)}')"
             ${subjectTopics.length === 0 ? "disabled" : ""}
@@ -147,6 +154,25 @@ async function loadDashboardStats() {
   }
 }
 
+function selectTopic(subjectId, topicId, topicName) {
+  selectedTopicsBySubject[subjectId] = {
+    id: topicId,
+    name: topicName
+  };
+
+  const allTopicButtons = document.querySelectorAll(
+    `.topic-chip[data-subject-id="${subjectId}"]`
+  );
+
+  allTopicButtons.forEach((button) => {
+    button.classList.remove("active");
+
+    if (button.dataset.topicId === topicId) {
+      button.classList.add("active");
+    }
+  });
+}
+
 function setStatsFallback() {
   const attemptsElement = document.getElementById("stat-attempts");
   const correctAnswersElement = document.getElementById("stat-correct-answers");
@@ -158,21 +184,17 @@ function setStatsFallback() {
 }
 
 function startQuizWithTopic(subjectId, subjectName) {
-  const selectElement = document.getElementById(`topic-select-${subjectId}`);
+  const selectedTopic = selectedTopicsBySubject[subjectId];
 
-  if (!selectElement || !selectElement.value) {
+  if (!selectedTopic) {
     alert("Bitte wähle zuerst einen Themenbereich aus.");
     return;
   }
 
-  const selectedTopicId = selectElement.value;
-  const selectedTopicName =
-    selectElement.options[selectElement.selectedIndex].text;
-
   localStorage.setItem("selectedSubjectId", subjectId);
   localStorage.setItem("selectedSubjectName", subjectName);
-  localStorage.setItem("selectedTopicId", selectedTopicId);
-  localStorage.setItem("selectedTopicName", selectedTopicName);
+  localStorage.setItem("selectedTopicId", selectedTopic.id);
+  localStorage.setItem("selectedTopicName", selectedTopic.name);
 
   window.location.href = "quiz.html";
 }
