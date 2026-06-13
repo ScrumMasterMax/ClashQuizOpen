@@ -19,33 +19,43 @@
 
     :root {
       --gold: #D8B34B;
+      --gold-dark: #c9a03f;
       --light-gray: #D4D5D7;
       --medium-gray: #9A9DA3;
       --dark-gray: #585B61;
       --dark-blue: #1B1C20;
+      --white: #ffffff;
+      --soft-bg: #ececed;
+      --card-border: #d8d9dc;
+      --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.08);
+      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.06);
+      --shadow-strong: 0 14px 34px rgba(0, 0, 0, 0.14);
     }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: var(--dark-blue);
-      background-color: #fff;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(216, 179, 75, 0.08), transparent 22%),
+        var(--light-gray);
+      display: flex;
+      flex-direction: column;
     }
 
     header {
-      background-color: var(--dark-blue);
-      padding: 1.2rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: rgba(27, 28, 32, 0.96);
+      backdrop-filter: blur(8px);
+      padding: 1rem 0;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
     }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 0 2rem;
     }
@@ -57,73 +67,161 @@
       text-decoration: none;
       color: var(--gold);
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
+      letter-spacing: 0.01em;
     }
 
     .logo-img {
-      height: 45px;
+      height: 42px;
       width: auto;
     }
 
     .back-link {
       color: var(--light-gray);
       text-decoration: none;
-      transition: color 0.3s;
+      transition: color 0.3s ease;
+      font-size: 0.95rem;
     }
 
     .back-link:hover {
       color: var(--gold);
     }
 
-    .login-hero {
-      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--dark-gray) 100%);
-      color: #fff;
-      padding: 5rem 2rem;
-      text-align: center;
+    .login-shell {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
     }
 
-    .login-hero h1 {
-      font-size: 3rem;
+    .login-layout {
+      width: 100%;
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .info-panel {
+      background: linear-gradient(145deg, rgba(27, 28, 32, 1) 0%, rgba(72, 75, 82, 0.98) 100%);
+      color: var(--white);
+      border-radius: 22px;
+      padding: 2rem;
+      box-shadow: var(--shadow-strong);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-panel::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(216, 179, 75, 0.18) 0%, rgba(216, 179, 75, 0) 70%);
+      pointer-events: none;
+    }
+
+    .info-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .info-panel h1 {
+      font-size: 2.4rem;
+      line-height: 1.2;
       margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
     }
 
-    .login-hero .highlight {
+    .highlight {
       color: var(--gold);
     }
 
-    .login-hero p {
+    .info-panel p {
       color: var(--light-gray);
-      max-width: 700px;
-      margin: 0 auto;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
     }
 
-    .login-section {
-      background-color: var(--light-gray);
-      padding: 5rem 2rem;
+    .info-points {
+      display: grid;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .info-point {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+    }
+
+    .info-point h3 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: var(--white);
+    }
+
+    .info-point p {
+      margin: 0;
+      color: var(--light-gray);
+      font-size: 0.92rem;
     }
 
     .login-card {
-      max-width: 700px;
-      margin: 0 auto;
-      background-color: #fff;
-      border-radius: 12px;
-      padding: 2.5rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      border-top: 5px solid var(--gold);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 22px;
+      padding: 2rem;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-card-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .login-card-header span {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
     }
 
     .login-card h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: var(--dark-blue);
       font-size: 2rem;
+      color: var(--dark-blue);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
     }
 
     .login-card p.subtitle {
-      text-align: center;
       color: var(--medium-gray);
-      margin-bottom: 2rem;
+      font-size: 1rem;
     }
 
     .login-form {
@@ -131,43 +229,56 @@
       gap: 1rem;
     }
 
+    .form-group {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--dark-gray);
+    }
+
     .login-form input {
       width: 100%;
-      padding: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 0.95rem 1rem;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
       font-size: 1rem;
       outline: none;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      background-color: var(--white);
+      color: var(--dark-blue);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .login-form input:focus {
       border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(216, 179, 75, 0.2);
+      box-shadow: 0 0 0 3px rgba(216, 179, 75, 0.16);
     }
 
     .btn {
-      padding: 1rem 2rem;
+      padding: 0.95rem 1.2rem;
       font-size: 1rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
+      transition: all 0.25s ease;
+      font-weight: 700;
       text-decoration: none;
       display: inline-block;
       text-align: center;
     }
 
     .btn-primary {
-      background-color: var(--gold);
+      background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
       color: var(--dark-blue);
+      box-shadow: 0 6px 14px rgba(216, 179, 75, 0.22);
     }
 
     .btn-primary:hover {
-      background-color: #c9a03f;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(216, 179, 75, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(216, 179, 75, 0.26);
     }
 
     .message {
@@ -175,17 +286,19 @@
       text-align: center;
       font-weight: 500;
       min-height: 1.5rem;
+      color: var(--dark-blue);
     }
 
     .register-hint {
       margin-top: 1.5rem;
       text-align: center;
       color: var(--medium-gray);
+      font-size: 0.95rem;
     }
 
     .register-hint a {
       color: var(--dark-blue);
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
     }
 
@@ -196,34 +309,62 @@
     footer {
       background-color: var(--dark-blue);
       color: var(--light-gray);
-      padding: 3rem 2rem;
+      padding: 1.5rem;
       text-align: center;
+      margin-top: auto;
     }
 
     .footer-content {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
     .footer-bottom {
       color: var(--medium-gray);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .login-layout {
+        grid-template-columns: 1fr;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .info-panel h1 {
+        font-size: 2rem;
+      }
     }
 
     @media (max-width: 768px) {
-      .login-hero h1 {
-        font-size: 2.2rem;
-      }
-
-      .login-card {
-        padding: 2rem 1.5rem;
-      }
-
       nav {
         padding: 0 1rem;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: flex-start;
       }
 
       .logo-img {
-        height: 35px;
+        height: 36px;
+      }
+
+      .logo-container {
+        font-size: 1.2rem;
+      }
+
+      .login-shell {
+        padding: 1.2rem 1rem 2rem;
+      }
+
+      .info-panel,
+      .login-card {
+        padding: 1.5rem;
+        border-radius: 18px;
+      }
+
+      .info-panel h1,
+      .login-card h2 {
+        font-size: 1.7rem;
       }
     }
   </style>
@@ -239,30 +380,62 @@
     </nav>
   </header>
 
-  <section class="login-hero">
-    <h1>Willkommen zurück bei <span class="highlight">ClashQuiz</span></h1>
-    <p>Melde dich an und setze dein Lernabenteuer genau dort fort, wo du aufgehört hast.</p>
-  </section>
+  <main class="login-shell">
+    <div class="login-layout">
+      <section class="info-panel">
+        <span class="info-label">Benutzerzugang</span>
+        <h1>Willkommen zurück bei <span class="highlight">ClashQuiz</span></h1>
+        <p>
+          Melde dich an, um auf deine Quizze, gespeicherten Ergebnisse
+          und deinen persönlichen Lernfortschritt zuzugreifen.
+        </p>
 
-  <section class="login-section">
-    <div class="login-card">
-      <h2>Anmeldung</h2>
-      <p class="subtitle">Melde dich mit deiner E-Mail und deinem Passwort an.</p>
+        <div class="info-points">
+          <div class="info-point">
+            <h3>Direkter Zugang</h3>
+            <p>Nach der Anmeldung gelangst du unmittelbar in dein persönliches Dashboard.</p>
+          </div>
+          <div class="info-point">
+            <h3>Gespeicherte Ergebnisse</h3>
+            <p>Bereits absolvierte Quizze und Kennzahlen bleiben für dich übersichtlich verfügbar.</p>
+          </div>
+          <div class="info-point">
+            <h3>Einheitliche Oberfläche</h3>
+            <p>Die Gestaltung orientiert sich am Dashboard und sorgt für einen konsistenten Anwendungsbereich.</p>
+          </div>
+        </div>
+      </section>
 
-      <form id="login-form" class="login-form">
-        <input type="email" id="login_email" placeholder="E-Mail" required>
-        <input type="password" id="login_password" placeholder="Passwort" required>
-        <button type="submit" class="btn btn-primary">Anmelden</button>
-      </form>
+      <section class="login-card">
+        <div class="login-card-header">
+          <span>Anmeldung</span>
+          <h2>In dein Konto einloggen</h2>
+          <p class="subtitle">Melde dich mit deiner E-Mail-Adresse und deinem Passwort an.</p>
+        </div>
 
-      <p id="login-message" class="message"></p>
+        <form id="login-form" class="login-form">
+          <div class="form-group">
+            <label for="login_email">E-Mail-Adresse</label>
+            <input type="email" id="login_email" placeholder="name@beispiel.de" required>
+          </div>
 
-      <p class="register-hint">
-        Noch kein Konto?
-        <a href="register.html">Jetzt registrieren</a>
-      </p>
+          <div class="form-group">
+            <label for="login_password">Passwort</label>
+            <input type="password" id="login_password" placeholder="Passwort eingeben" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Anmelden</button>
+        </form>
+
+        <p id="login-message" class="message"></p>
+
+        <p class="register-hint">
+          Noch kein Konto?
+          <a href="register.html">Jetzt registrieren</a>
+        </p>
+      </section>
     </div>
-  </section>
+  </main>
 
   <footer>
     <div class="footer-content">
