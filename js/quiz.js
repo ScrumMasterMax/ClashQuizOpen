@@ -157,7 +157,6 @@ function renderQuestionNavigation() {
       ${quizQuestions.map((_, index) => {
         const state = questionStates[index];
         const isActive = index === currentQuestionIndex;
-        const isAnswered = state.answered;
         const isCorrect = state.isCorrect === true;
         const isWrong = state.isCorrect === false;
 
@@ -170,7 +169,7 @@ function renderQuestionNavigation() {
 
         return `
           <button
-            class="question-nav-item ${isActive ? "active" : ""} ${isAnswered ? "answered" : ""}"
+            class="question-nav-item ${isActive ? "active" : ""} ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""}"
             onclick="goToQuestion(${index})"
             type="button"
           >
