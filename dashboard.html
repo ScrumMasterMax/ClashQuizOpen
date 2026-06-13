@@ -295,25 +295,45 @@
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--dark-gray);
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.6rem;
     }
 
-    .topic-select {
-      width: 100%;
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 0.78rem 0.9rem;
+    .topic-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
       margin-bottom: 1rem;
-      background-color: var(--white);
-      color: var(--dark-blue);
-      font-size: 0.95rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .topic-select:focus {
-      outline: none;
+    .topic-chip {
+      border: 1px solid var(--card-border);
+      background: linear-gradient(180deg, #fbfbfc 0%, #f2f3f4 100%);
+      color: var(--dark-blue);
+      border-radius: 999px;
+      padding: 0.65rem 0.95rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .topic-chip:hover {
       border-color: var(--gold);
+      background: #fffdf8;
+      transform: translateY(-1px);
+    }
+
+    .topic-chip.active {
+      border-color: var(--gold);
+      background: linear-gradient(180deg, rgba(216, 179, 75, 0.18) 0%, rgba(216, 179, 75, 0.1) 100%);
       box-shadow: 0 0 0 3px rgba(216, 179, 75, 0.15);
+    }
+
+    .topic-empty {
+      color: var(--medium-gray);
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+      font-style: italic;
     }
 
     .subject-card .action-btn {
