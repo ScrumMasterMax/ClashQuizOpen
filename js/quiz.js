@@ -7,6 +7,7 @@ let currentUserId = null;
 let currentSubjectId = null;
 let currentTopicId = null;
 let currentTopicName = null;
+let questionStates = [];
 
 async function initQuizPage() {
   const isQuizPage = window.location.pathname.includes("quiz.html");
@@ -22,6 +23,7 @@ async function initQuizPage() {
   currentTopicName = topicName;
 
   const titleElement = document.getElementById("quiz-subject-title");
+  const quizTopicName = document.getElementById("quiz-topic-name");
   const quizContent = document.getElementById("quiz-content");
 
   if (!subjectId || !subjectName || !topicId || !topicName) {
@@ -38,7 +40,11 @@ async function initQuizPage() {
   }
 
   if (titleElement) {
-    titleElement.textContent = `Quiz: ${subjectName} – ${topicName}`;
+    titleElement.textContent = `Quiz: ${subjectName}`;
+  }
+
+  if (quizTopicName) {
+    quizTopicName.textContent = `Themenbereich: ${topicName}`;
   }
 
   const {
@@ -111,6 +117,11 @@ async function initQuizPage() {
   currentQuestionIndex = 0;
   score = 0;
   answerLocked = false;
+  questionStates = quizQuestions.map(() => ({
+    answered: false,
+    isCorrect: null,
+    selectedAnswer: null
+  }));
 
   renderQuestion();
 }
@@ -140,15 +151,50 @@ async function createQuizAttempt() {
   return true;
 }
 
+function renderQuestionNavigation() {
+  return `
+    <div class="question-nav">
+      ${quizQuestions.map((_, index) => {
+        const state = questionStates[index];
+        const isActive = index === currentQuestionIndex;
+        const isAnswered = state.answered;
+        const isCorrect = state.isCorrect === true;
+        const isWrong = state.isCorrect === false;
+
+        let marker = "";
+        if (isCorrect) {
+          marker = `<span class="question-nav-marker">✓</span>`;
+        } else if (isWrong) {
+          marker = `<span class="question-nav-marker">✕</span>`;
+        }
+
+        return `
+          <button
+            class="question-nav-item ${isActive ? "active" : ""} ${isAnswered ? "answered" : ""}"
+            onclick="goToQuestion(${index})"
+            type="button"
+          >
+            <span>${index + 1}</span>
+            ${marker}
+          </button>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
 function renderQuestion() {
   const quizContent = document.getElementById("quiz-content");
   const question = quizQuestions[currentQuestionIndex];
+  const questionState = questionStates[currentQuestionIndex];
 
   if (!quizContent || !question) return;
 
-  answerLocked = false;
+  answerLocked = questionState.answered;
 
   quizContent.innerHTML = `
+    ${renderQuestionNavigation()}
+
     <div class="quiz-progress">
       Frage ${currentQuestionIndex + 1} von ${quizQuestions.length}
     </div>
@@ -158,29 +204,69 @@ function renderQuestion() {
     </div>
 
     <div class="answers-list">
-      <button class="answer-btn" onclick="handleAnswer('a')">
-        A. ${escapeHtml(question.answer_a)}
-      </button>
-      <button class="answer-btn" onclick="handleAnswer('b')">
-        B. ${escapeHtml(question.answer_b)}
-      </button>
-      <button class="answer-btn" onclick="handleAnswer('c')">
-        C. ${escapeHtml(question.answer_c)}
-      </button>
-      <button class="answer-btn" onclick="handleAnswer('d')">
-        D. ${escapeHtml(question.answer_d)}
-      </button>
+      ${renderAnswerButton("a", question.answer_a, question, questionState)}
+      ${renderAnswerButton("b", question.answer_b, question, questionState)}
+      ${renderAnswerButton("c", question.answer_c, question, questionState)}
+      ${renderAnswerButton("d", question.answer_d, question, questionState)}
     </div>
 
-    <div id="quiz-feedback" class="quiz-feedback empty">
-      <span>Feedback erscheint hier nach deiner Auswahl.</span>
+    <div id="quiz-feedback" class="quiz-feedback ${questionState.answered ? "" : "empty"}">
+      ${
+        questionState.answered
+          ? `
+            <div>
+              <strong>${questionState.isCorrect ? "Richtig!" : "Nicht ganz richtig."}</strong><br>
+              ${escapeHtml(question.explanation ?? "Keine Erklärung vorhanden.")}
+            </div>
+          `
+          : `<span>Feedback erscheint hier nach deiner Auswahl.</span>`
+      }
     </div>
 
     <div class="quiz-actions">
-      <button id="next-button" class="next-btn" onclick="goToNextQuestion()" disabled>
-        Nächste Frage
-      </button>
+      ${renderQuizActionButton()}
     </div>
+  `;
+}
+
+function renderAnswerButton(letter, answerText, question, questionState) {
+  let buttonClass = "answer-btn";
+  let disabled = "";
+
+  if (questionState.answered) {
+    disabled = "disabled";
+
+    if (letter === question.correct_answer) {
+      buttonClass += " correct";
+    }
+
+    if (letter === questionState.selectedAnswer && questionState.selectedAnswer !== question.correct_answer) {
+      buttonClass += " wrong";
+    }
+  }
+
+  return `
+    <button class="${buttonClass}" onclick="handleAnswer('${letter}')" ${disabled}>
+      ${letter.toUpperCase()}. ${escapeHtml(answerText)}
+    </button>
+  `;
+}
+
+function renderQuizActionButton() {
+  const allQuestionsAnswered = questionStates.every((state) => state.answered);
+
+  if (allQuestionsAnswered) {
+    return `
+      <button class="next-btn" onclick="finishQuizAndShowResults()">
+        Ergebnis ansehen
+      </button>
+    `;
+  }
+
+  return `
+    <button class="next-btn" onclick="goToNextOpenQuestion()">
+      Nächste offene Frage
+    </button>
   `;
 }
 
@@ -190,10 +276,7 @@ async function handleAnswer(selectedAnswer) {
   answerLocked = true;
 
   const question = quizQuestions[currentQuestionIndex];
-  const feedbackBox = document.getElementById("quiz-feedback");
-  const nextButton = document.getElementById("next-button");
-  const answerButtons = document.querySelectorAll(".answer-btn");
-
+  const questionState = questionStates[currentQuestionIndex];
   const isCorrect = selectedAnswer === question.correct_answer;
 
   const answerSaved = await saveQuizAnswer(question, selectedAnswer, isCorrect);
@@ -204,41 +287,13 @@ async function handleAnswer(selectedAnswer) {
     return;
   }
 
-  if (isCorrect) {
-    score += 1;
-  }
+  questionState.answered = true;
+  questionState.isCorrect = isCorrect;
+  questionState.selectedAnswer = selectedAnswer;
 
-  answerButtons.forEach((button) => {
-    const buttonText = button.textContent.trim().toLowerCase();
-    const answerLetter = buttonText.charAt(0).toLowerCase();
+  score = questionStates.filter((state) => state.isCorrect === true).length;
 
-    button.disabled = true;
-
-    if (answerLetter === question.correct_answer) {
-      button.classList.add("correct");
-    }
-
-    if (answerLetter === selectedAnswer && selectedAnswer !== question.correct_answer) {
-      button.classList.add("wrong");
-    }
-  });
-
-  if (feedbackBox) {
-    feedbackBox.classList.remove("empty");
-    feedbackBox.innerHTML = `
-      <div>
-        <strong>${isCorrect ? "Richtig!" : "Nicht ganz richtig."}</strong><br>
-        ${escapeHtml(question.explanation ?? "Keine Erklärung vorhanden.")}
-      </div>
-    `;
-  }
-
-  if (nextButton) {
-    nextButton.disabled = false;
-    if (currentQuestionIndex === quizQuestions.length - 1) {
-      nextButton.textContent = "Ergebnis ansehen";
-    }
-  }
+  renderQuestion();
 }
 
 async function saveQuizAnswer(question, selectedAnswer, isCorrect) {
@@ -262,18 +317,40 @@ async function saveQuizAnswer(question, selectedAnswer, isCorrect) {
   return true;
 }
 
-async function goToNextQuestion() {
-  if (!answerLocked) return;
+function goToQuestion(index) {
+  if (index < 0 || index >= quizQuestions.length) return;
 
-  if (currentQuestionIndex < quizQuestions.length - 1) {
-    currentQuestionIndex += 1;
-    renderQuestion();
+  currentQuestionIndex = index;
+  renderQuestion();
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
 
+function goToNextOpenQuestion() {
+  const nextOpenIndex = questionStates.findIndex(
+    (state, index) => index > currentQuestionIndex && !state.answered
+  );
+
+  if (nextOpenIndex !== -1) {
+    goToQuestion(nextOpenIndex);
+    return;
+  }
+
+  const firstOpenIndex = questionStates.findIndex((state) => !state.answered);
+
+  if (firstOpenIndex !== -1) {
+    goToQuestion(firstOpenIndex);
+  }
+}
+
+async function finishQuizAndShowResults() {
+  const allQuestionsAnswered = questionStates.every((state) => state.answered);
+
+  if (!allQuestionsAnswered) {
+    alert("Bitte beantworte zuerst alle Fragen.");
     return;
   }
 
@@ -335,6 +412,7 @@ function restartQuiz() {
   score = 0;
   answerLocked = false;
   currentAttemptId = null;
+  questionStates = [];
   initQuizPage();
 }
 
