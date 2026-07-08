@@ -1,3 +1,5 @@
+Diese Datei bezieht sich vor allem auf die Datenstruktur, welche in Supabase aufgebaut wurde.
+
 # ClashQuizOpen
 
 Öffentliche Version von **ClashQuiz** – einer webbasierten Quizanwendung mit **HTML**, **CSS**, **JavaScript** und **Supabase**.
