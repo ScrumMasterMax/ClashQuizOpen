@@ -1,4 +1,4 @@
-Diese Datei bezieht sich vor allem auf die Datenstruktur, welche in Supabase aufgebaut wurde.
+# Diese Datei bezieht sich vor allem auf die Datenstruktur, welche in Supabase aufgebaut wurde.
 
 # ClashQuizOpen
 
