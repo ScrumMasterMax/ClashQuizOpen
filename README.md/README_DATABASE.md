@@ -1,5 +1,5 @@
 # ClashQuizOpen – Datenbankstruktur
-
+Dies ist ein Test.
 Diese Datei beschreibt den grundlegenden Aufbau der Datenbank von **ClashQuizOpen** auf Basis von **Supabase / PostgreSQL**.
 
 ## Ziel der Datenbank
